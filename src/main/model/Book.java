@@ -3,32 +3,41 @@ package model;
 public class Book {
     private String title;   // title of the book
     private String author;  // author of the book
-    private String isbnNum; // ISBN number
     private int seriesNum;  // book x in the series (0 if it's not part of a series)
+    private String isbn; // ISBN number
 
     /*
-        REQUIRES: title has a non-zero length
-        EFFECTS: book title is set to title; author is set to authorName
-                 if there is an ISBN number then it is set to numISBN,
-                 otherwise it is set to null; if it is part of a series then the
-                 book seriesNum is set to bookNum, otherwise it is 0.
+        REQUIRES: title and author has a non-zero length
+        EFFECTS: book title is set to title; author is set to author
+                 if the book is part of a series, then book seriesNum is set to bookNum, otherwise it is 0
+                 if there is an ISBN then it is set to isbn, otherwise it is set to null
      */
-    public Book(String title, String authorName, String numISBN, int bookNum) {
+
+    public Book(String title, String author) {
+        this(title, author, 0);
+    }
+
+    public Book(String title, String author, int bookNum) {
+        this(title, author, bookNum, null);
+    }
+
+    public Book(String title, String authorName, int bookNum, String isbn) {
         this.title = title;
         author = authorName;
-
-        if (numISBN != null) {
-            isbnNum = numISBN;
-        } else {
-            isbnNum = "N/A";
-        }
 
         if (bookNum != 0) {
             seriesNum = bookNum;
         } else {
             seriesNum = 0;
         }
+
+        if (isbn != null) {
+            this.isbn = isbn;
+        } else {
+            this.isbn = "N/A";
+        }
     }
+
 
     public String getTitle() {
         return title;
@@ -38,8 +47,8 @@ public class Book {
         return author;
     }
 
-    public String getIsbnNum() {
-        return isbnNum;
+    public String getIsbn() {
+        return isbn;
     }
 
     public int getSeriesNum() {
@@ -48,7 +57,7 @@ public class Book {
 
     public String toString() {
         String bookInfo = "Title: " + getTitle() + "\nAuthor: " + getAuthor()
-                + "\nISBN: " + getIsbnNum() + "\nBook " + getSeriesNum() + " in the series";
+                + "\nISBN: " + getIsbn() + "\nBook " + getSeriesNum() + " in the series";
         return bookInfo;
     }
 }
