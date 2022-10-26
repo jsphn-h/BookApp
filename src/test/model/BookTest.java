@@ -20,8 +20,13 @@ class BookTest {
     void testConstructor() {
         assertEquals("Hunger Games", testBook.getTitle());
         assertEquals("Suzanne Collins", testBook.getAuthor());
-        assertEquals("9780439023481", testBook.getIsbn());
         assertEquals(1, testBook.getSeriesNum());
+        assertEquals("9780439023481", testBook.getIsbn());
+;
+        assertEquals(0, testBook2.getSeriesNum());
+        assertEquals("N/A", testBook2.getIsbn());
+
+        assertEquals(2, testBook3.getSeriesNum());
     }
 
     @Test
