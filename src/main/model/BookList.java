@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class BookList extends ArrayList<Book> {
-    private String listName;    // the name of the list
+    private final String listName;    // the name of the list
 
     /*
         REQUIRES: listName has non-zero length
@@ -21,7 +21,7 @@ public class BookList extends ArrayList<Book> {
      */
     public String addBook(ArrayList<Book> list, Book book) {
         list.add(book);
-        return book.getTitle().toString();
+        return book.getTitle();
     }
 
     /*
@@ -32,7 +32,7 @@ public class BookList extends ArrayList<Book> {
      */
     public String removeBook(ArrayList<Book> list, String title, String author) {
         int idx = searchBook(list, title, author);
-        String message = "";
+        String message;
 
         if (idx != -1) {
             list.remove(idx);
@@ -40,7 +40,6 @@ public class BookList extends ArrayList<Book> {
         } else {
             message = title + " is not in this list.";
         }
-        System.out.println(message);
         return message;
     }
 
@@ -73,11 +72,11 @@ public class BookList extends ArrayList<Book> {
         REQUIRES: list, book title
         EFFECTS: outputs the information of all the books in the list
      */
-    public void displayBooks(ArrayList<Book> list) {
+    public String displayBooks(ArrayList<Book> list) {
         String bookInfo = getListName() + "\n\n";
         for (Book book : list) {
             bookInfo += book.toString() + "\n\n";
         }
-        System.out.println(bookInfo);
+        return bookInfo;
     }
 }

@@ -18,6 +18,8 @@ public class BookListTest {
         testBook3 = new Book("The Elite", "Kiera Cass", 2);
 
         testList = new BookList("To Read");
+        testList.add(testBook);
+
         testList2 = new BookList("Read");
         testList2.add(testBook2);
         testList2.add(new Book("A Game of Thrones", "George R. R. Martin", 1, "9780553573404"));
@@ -52,23 +54,26 @@ public class BookListTest {
 
     @Test
     void testAddBook() {
-        testList.addBook(testList, testBook);
+        assertEquals("Hunger Games", testList.addBook(testList, testBook));
     }
 
     @Test
     void testSearchBook() {
-        testList.searchBook(testList, "Hunger Games", "Suzanne Collins");
-        testList.searchBook(testList, "A Game of Thrones", "George R. R. Martin");
+        assertEquals(0, testList.searchBook(testList, "Hunger Games", "Suzanne Collins"));
+        assertEquals(-1, testList.searchBook(testList, "A Game of Thrones", "George R. R. Martin"));
     }
 
     @Test
     void testRemoveBook() {
-        testList.removeBook(testList2, "Hunger Games", "Suzanne Collins");
-        testList.removeBook(testList2, "Da Vinci Code", "Dan Brown");
+        String message = "";
+        message = testList.removeBook(testList2, "Hunger Games", "Suzanne Collins");
+        assertEquals("Hunger Games is not in this list.", message);
+        message = testList.removeBook(testList2, "Da Vinci Code", "Dan Brown");
+        assertEquals("Da Vinci Code has been removed from the list.", message);
     }
 
     @Test
     void testDisplayBooks() {
-       testList2.displayBooks(testList2);
+       assertTrue(testList.displayBooks(testList).contains("Title: Hunger Games"));
     }
 }
