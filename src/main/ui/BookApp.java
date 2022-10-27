@@ -9,7 +9,7 @@ import java.util.Scanner;
 // This class "runs" the application. It has the menu and allows the user to interact with the app
 public class BookApp {
     private Scanner input;
-    ArrayList listOfLists = new ArrayList(); //Class type: ArrayList
+    private ArrayList listOfLists = new ArrayList(); //Class type: ArrayList
 
     //EFFECTS: runs the book app
     public BookApp() {
@@ -23,7 +23,7 @@ public class BookApp {
      */
     private void runApp() {
         boolean keepRunning = true;
-        String userInput = null;
+        String userInput;
 
         init();
 
@@ -45,16 +45,22 @@ public class BookApp {
         EFFECTS: processes user input
      */
     private void processInput(String userInput) {
-        if (userInput.equals("1")) {
-            createList(listOfLists);
-        } else if (userInput.equals("2")) {
-            addToList();
-        } else if (userInput.equals("3")) {
-            removeFromList();
-        } else if (userInput.equals("4")) {
-            displayBooks();
-        } else {
-            System.out.println("Invalid input");
+        switch (userInput) {
+            case "1":
+                createList(listOfLists);
+                break;
+            case "2":
+                addToList();
+                break;
+            case "3":
+                removeFromList();
+                break;
+            case "4":
+                displayBooks();
+                break;
+            default:
+                System.out.println("Invalid input");
+                break;
         }
     }
 
@@ -88,7 +94,7 @@ public class BookApp {
         Boolean validInput = false;
 
         while (!validInput) {
-            if (validStringInput(listName) == false) {
+            if (!validStringInput(listName)) {
                 listName = input.next();
             } else {
                 new BookList(listName);
@@ -106,19 +112,19 @@ public class BookApp {
     private void addToList() {
         System.out.println("Enter the title: ");
         String title = input.next();
-        while (validStringInput(title) == false) {
+        while (!validStringInput(title)) {
             title = input.next();
         }
 
         System.out.println("Enter the author: ");
         String author = input.next();
-        while (validStringInput(author) == false) {
+        while (!validStringInput(author)) {
             author = input.next();
         }
 
         System.out.println("Enter list to be added to: ");
         String listName = input.next();
-        while (validStringInput(listName) == false) {
+        while (!validStringInput(listName)) {
             listName = input.next();
         }
 
@@ -135,19 +141,19 @@ public class BookApp {
     private void removeFromList() {
         System.out.println("Enter the title: ");
         String title = input.next();
-        while (validStringInput(title) == false) {
+        while (!validStringInput(title)) {
             title = input.next();
         }
 
         System.out.println("Enter the author: ");
         String author = input.next();
-        while (validStringInput(author) == false) {
+        while (!validStringInput(author)) {
             author = input.next();
         }
 
         System.out.println("Enter list to remove the book from: ");
         String listName = input.next();
-        while (validStringInput(listName) == false) {
+        while (!validStringInput(listName)) {
             listName = input.next();
         }
 
@@ -162,7 +168,7 @@ public class BookApp {
     private void displayBooks() {
         System.out.println("List to display: ");
         String listName = input.next();
-        while (validStringInput(listName) == false) {
+        while (!validStringInput(listName)) {
             listName = input.next();
         }
 
@@ -175,12 +181,10 @@ public class BookApp {
                  returns the list
      */
     private BookList searchList(String listName) {
-        int idx = 0;
-        for (int i = 0; i < listOfLists.size(); i++) {
-            BookList bookList = (BookList) listOfLists.get(i);
+        for (Object listOfList : listOfLists) {
+            BookList bookList = (BookList) listOfList;
             if (listName.equals(bookList.getListName())) {
-                System.out.println(bookList.getListName() + " has been found.");
-                return (BookList) listOfLists.get(i);
+                return (BookList) listOfList;
             } else {
                 System.out.println("The list doesn't exist.");
             }
@@ -192,7 +196,7 @@ public class BookApp {
         EFFECTS: checks whether the user input is valid
      */
     private boolean validStringInput(String input) {
-        if (input.isEmpty() || input == "" || input == " ") {
+        if (input.isEmpty() || input.equals(" ")) {
             System.out.println("Input cannot be empty. Try again: ");
             return false;
         } else {

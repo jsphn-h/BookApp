@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
-
 public class BookListTest {
     private Book testBook, testBook2, testBook3;
     private BookList testList, testList2;
@@ -32,7 +30,7 @@ public class BookListTest {
         assertEquals("Suzanne Collins", testBook.getAuthor());
         assertEquals(1, testBook.getSeriesNum());
         assertEquals("9780439023481", testBook.getIsbn());
-        ;
+
         assertEquals(0, testBook2.getSeriesNum());
         assertEquals("N/A", testBook2.getIsbn());
 
@@ -65,7 +63,7 @@ public class BookListTest {
 
     @Test
     void testRemoveBook() {
-        String message = "";
+        String message;
         message = testList.removeBook(testList2, "Hunger Games", "Suzanne Collins");
         assertEquals("Hunger Games is not in this list.", message);
         message = testList.removeBook(testList2, "Da Vinci Code", "Dan Brown");

@@ -12,7 +12,6 @@ public class BookList extends ArrayList<Book> {
      */
     public BookList(String name) {
         listName = name;
-        ArrayList<Book> listName = new ArrayList();
     }
 
     /*

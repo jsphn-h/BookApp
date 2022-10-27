@@ -25,12 +25,7 @@ public class Book {
     public Book(String title, String authorName, int bookNum, String isbn) {
         this.title = title;
         author = authorName;
-
-        if (bookNum != 0) {
-            seriesNum = bookNum;
-        } else {
-            seriesNum = 0;
-        }
+        seriesNum = bookNum;
 
         if (isbn != null) {
             this.isbn = isbn;
@@ -57,8 +52,7 @@ public class Book {
     }
 
     public String toString() {
-        String bookInfo = "Title: " + getTitle() + "\nAuthor: " + getAuthor()
+        return "Title: " + getTitle() + "\nAuthor: " + getAuthor()
                 + "\nISBN: " + getIsbn() + "\nBook " + getSeriesNum() + " in the series";
-        return bookInfo;
     }
 }
