@@ -7,33 +7,25 @@ public class Book {
     private int seriesNum;  // book x in the series (0 if it's not part of a series)
     private String isbn; // ISBN number
 
+    private Genre genre;
+
     /*
-        REQUIRES: title and author has a non-zero length
+        REQUIRES: title and author has a non-zero length, genre
         EFFECTS: book title is set to title; author is set to author
                  if the book is part of a series, then book seriesNum is set to bookNum, otherwise it is 0
                  if there is an ISBN then it is set to isbn, otherwise it is set to null
      */
 
-    public Book(String title, String author) {
-        this(title, author, 0);
+    public Book(String title, String author, Genre genre) {
+        this(title, author, genre, 0);
     }
 
-    public Book(String title, String author, int bookNum) {
-        this(title, author, bookNum, null);
-    }
-
-    public Book(String title, String authorName, int bookNum, String isbn) {
+    public Book(String title, String authorName, Genre genre, int bookNum) {
         this.title = title;
         author = authorName;
+        this.genre = genre;
         seriesNum = bookNum;
-
-        if (isbn != null) {
-            this.isbn = isbn;
-        } else {
-            this.isbn = "N/A";
-        }
     }
-
 
     public String getTitle() {
         return title;
@@ -43,16 +35,17 @@ public class Book {
         return author;
     }
 
-    public String getIsbn() {
-        return isbn;
+    public Genre getGenre() {
+        return genre;
     }
 
     public int getSeriesNum() {
         return seriesNum;
     }
 
+    //EFFECTS: returns a string representation of the book information
     public String toString() {
         return "Title: " + getTitle() + "\nAuthor: " + getAuthor()
-                + "\nISBN: " + getIsbn() + "\nBook " + getSeriesNum() + " in the series";
+                + "\nGenre: " + getGenre() + "\nBook " + getSeriesNum() + " in the series";
     }
 }

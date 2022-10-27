@@ -2,25 +2,39 @@ package ui;
 
 import model.Book;
 import model.BookList;
+import model.Genre;
+import model.Library;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // This class "runs" the application. It has the menu and allows the user to interact with the app
 public class BookApp {
+    private static final String JSON_STORE = "./data/Library.json";
     private Scanner input;
+    private Library library;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+
     private ArrayList listOfLists = new ArrayList(); //Class type: ArrayList
 
-    //EFFECTS: runs the book app
-    public BookApp() {
+    // EFFECTS: constructs and runs the book app
+    public BookApp() throws FileNotFoundException {
+        input = new Scanner(System.in);
+        library = new Library("Josephine's Library");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
         System.out.println("Welcome to BookApp!\n");
         runApp();
     }
 
-    /*
-        MODIFIES: this
-        EFFECTS: processes user input
-     */
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void runApp() {
         boolean keepRunning = true;
         String userInput;
@@ -40,10 +54,8 @@ public class BookApp {
         System.out.println("Keep on reading!");
     }
 
-    /*
-        MODIFIES: this
-        EFFECTS: processes user input
-     */
+    // MODIFIES: this
+    // EFFECTS: processes user input
     private void processInput(String userInput) {
         switch (userInput) {
             case "1":
@@ -64,10 +76,8 @@ public class BookApp {
         }
     }
 
-    /*
-        MODIFIES: this
-        EFFECTS: initializes the app
-     */
+    // MODIFIES: this
+    // EFFECTS: initializes the app
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
@@ -84,10 +94,8 @@ public class BookApp {
         System.out.println("----- WARNING: you can't add/remove a book if no list has been created -----");
     }
 
-    /*
-        MODIFIES: this
-        EFFECTS: creates a book list
-     */
+    // MODIFIES: this
+    // EFFECTS: creates a book list
     private void createList(ArrayList listOfLists) {
         System.out.println("Enter list name: ");
         String listName = input.next();
@@ -105,10 +113,8 @@ public class BookApp {
         listOfLists.add(new BookList(listName)); //Class type: BookList
     }
 
-    /*
-        MODIFIES: this
-        EFFECTS: adds a book to a specified list
-     */
+    // MODIFIES: this
+    // EFFECTS: adds a book to a specified list
     private void addToList() {
         System.out.println("Enter the title: ");
         String title = input.next();
@@ -122,6 +128,8 @@ public class BookApp {
             author = input.next();
         }
 
+        Genre genre = readGenre();
+
         System.out.println("Enter list to be added to: ");
         String listName = input.next();
         while (!validStringInput(listName)) {
@@ -129,15 +137,13 @@ public class BookApp {
         }
 
         BookList list = searchList(listName);
-        Book book = new Book(title, author);
-        list.addBook(list, book);
+        Book book = new Book(title, author, genre);
+        list.addBook(book);
         System.out.println(list.get(list.size() - 1).getTitle() + " has been added to " + list.getListName());
     }
 
-    /*
-        MODIFIES: this
-        EFFECTS: removes a book to a specified list
-     */
+    // MODIFIES: this
+    // EFFECTS: removes a book to a specified list
     private void removeFromList() {
         System.out.println("Enter the title: ");
         String title = input.next();
@@ -158,13 +164,24 @@ public class BookApp {
         }
 
         BookList list = searchList(listName);
-        String message = list.removeBook(list, title, author);
+        String message = list.removeBook(title, author);
         System.out.println(message);
     }
 
-    /*
-        EFFECTS: display the book information of books in the list
-     */
+    // EFFECTS: prompts user to select a genre and returns the selected genre
+    private Genre readGenre() {
+        System.out.println("Please select a genre for the book: ");
+        int option = 1;
+        for (Genre g : Genre.values()) {
+            System.out.println(option + ": " + g);
+            option++;
+        }
+
+        int selection = input.nextInt();
+        return Genre.values()[selection - 1];
+    }
+
+    // EFFECTS: display the book information of books in the list
     private void displayBooks() {
         System.out.println("List to display: ");
         String listName = input.next();
@@ -173,13 +190,10 @@ public class BookApp {
         }
 
         BookList list = searchList(listName);
-        System.out.println(list.displayBooks(list));
+        System.out.println(list.displayBooks());
     }
 
-    /*
-        EFFECTS: searches for list (using listName) in listOfLists
-                 returns the list
-     */
+    // EFFECTS: searches for list (using listName) in listOfLists and returns the list
     private BookList searchList(String listName) {
         for (Object listOfList : listOfLists) {
             BookList bookList = (BookList) listOfList;
@@ -192,15 +206,36 @@ public class BookApp {
         return null;
     }
 
-    /*
-        EFFECTS: checks whether the user input is valid
-     */
+    // EFFECTS: checks whether the user input is valid
     private boolean validStringInput(String input) {
         if (input.isEmpty() || input.equals(" ")) {
             System.out.println("Input cannot be empty. Try again: ");
             return false;
         } else {
             return true;
+        }
+    }
+
+    // EFFECTS: saves the lists to file
+    private void saveLists() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(library);
+            jsonWriter.close();
+            System.out.println("Saved" + library.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads library from file
+    private void loadLibrary() {
+        try {
+            library = jsonReader.read();
+            System.out.println("Loaded " + library.getName() + " from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 }

@@ -11,9 +11,9 @@ class BookTest {
 
     @BeforeEach
     void runBefore() {
-        testBook = new Book("Hunger Games", "Suzanne Collins", 1, "9780439023481");
-        testBook2 = new Book("The Passenger", "Cormac McCarthy");
-        testBook3 = new Book("The Elite", "Kiera Cass", 2);
+        testBook = new Book("Hunger Games", "Suzanne Collins", Genre.SCIFI, 1);
+        testBook2 = new Book("The Passenger", "Cormac McCarthy", Genre.FICTION);
+        testBook3 = new Book("The Elite", "Kiera Cass", Genre.ROMANCE, 2);
     }
 
     @Test
@@ -21,10 +21,10 @@ class BookTest {
         assertEquals("Hunger Games", testBook.getTitle());
         assertEquals("Suzanne Collins", testBook.getAuthor());
         assertEquals(1, testBook.getSeriesNum());
-        assertEquals("9780439023481", testBook.getIsbn());
+        assertEquals(Genre.SCIFI, testBook.getGenre());
 ;
         assertEquals(0, testBook2.getSeriesNum());
-        assertEquals("N/A", testBook2.getIsbn());
+        assertEquals(Genre.FICTION, testBook2.getGenre());
 
         assertEquals(2, testBook3.getSeriesNum());
     }

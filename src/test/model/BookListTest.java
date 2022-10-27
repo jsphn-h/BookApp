@@ -11,16 +11,16 @@ public class BookListTest {
 
     @BeforeEach
     void runBefore() {
-        testBook = new Book("Hunger Games", "Suzanne Collins", 1, "9780439023481");
-        testBook2 = new Book("Da Vinci Code", "Dan Brown");
-        testBook3 = new Book("The Elite", "Kiera Cass", 2);
+        testBook = new Book("Hunger Games", "Suzanne Collins", Genre.SCIFI,1);
+        testBook2 = new Book("Da Vinci Code", "Dan Brown", Genre.MYSTERY);
+        testBook3 = new Book("The Elite", "Kiera Cass", Genre.ROMANCE, 2);
 
         testList = new BookList("To Read");
         testList.add(testBook);
 
         testList2 = new BookList("Read");
         testList2.add(testBook2);
-        testList2.add(new Book("A Game of Thrones", "George R. R. Martin", 1, "9780553573404"));
+        testList2.add(new Book("A Game of Thrones", "George R. R. Martin", Genre.FANTASY, 1));
     }
 
     // Test Book
@@ -29,10 +29,10 @@ public class BookListTest {
         assertEquals("Hunger Games", testBook.getTitle());
         assertEquals("Suzanne Collins", testBook.getAuthor());
         assertEquals(1, testBook.getSeriesNum());
-        assertEquals("9780439023481", testBook.getIsbn());
+        assertEquals(Genre.SCIFI, testBook.getGenre());
 
         assertEquals(0, testBook2.getSeriesNum());
-        assertEquals("N/A", testBook2.getIsbn());
+        assertEquals(Genre.MYSTERY, testBook2.getGenre());
 
         assertEquals(2, testBook3.getSeriesNum());
     }
@@ -52,26 +52,26 @@ public class BookListTest {
 
     @Test
     void testAddBook() {
-        assertEquals("Hunger Games", testList.addBook(testList, testBook));
+        assertEquals("Hunger Games", testList.addBook(testBook));
     }
 
     @Test
     void testSearchBook() {
-        assertEquals(0, testList.searchBook(testList, "Hunger Games", "Suzanne Collins"));
-        assertEquals(-1, testList.searchBook(testList, "A Game of Thrones", "George R. R. Martin"));
+        assertEquals(0, testList.searchBook("Hunger Games", "Suzanne Collins"));
+        assertEquals(-1, testList.searchBook("A Game of Thrones", "George R. R. Martin"));
     }
 
     @Test
     void testRemoveBook() {
         String message;
-        message = testList.removeBook(testList2, "Hunger Games", "Suzanne Collins");
+        message = testList.removeBook("Hunger Games", "Suzanne Collins");
         assertEquals("Hunger Games is not in this list.", message);
-        message = testList.removeBook(testList2, "Da Vinci Code", "Dan Brown");
+        message = testList.removeBook("Da Vinci Code", "Dan Brown");
         assertEquals("Da Vinci Code has been removed from the list.", message);
     }
 
     @Test
     void testDisplayBooks() {
-       assertTrue(testList.displayBooks(testList).contains("Title: Hunger Games"));
+       assertTrue(testList.displayBooks().contains("Title: Hunger Games"));
     }
 }
