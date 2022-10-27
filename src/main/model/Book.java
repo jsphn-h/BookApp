@@ -1,5 +1,6 @@
 package model;
 
+// This class creates Book objects with title and author, and possibly series number and  ISBN
 public class Book {
     private String title;   // title of the book
     private String author;  // author of the book

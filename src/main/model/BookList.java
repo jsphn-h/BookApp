@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+//This class creates reading lists that contains books
 public class BookList extends ArrayList<Book> {
     private final String listName;    // the name of the list
 

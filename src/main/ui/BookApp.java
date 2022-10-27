@@ -4,9 +4,9 @@ import model.Book;
 import model.BookList;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
+// This class "runs" the application. It has the menu and allows the user to interact with the app
 public class BookApp {
     private Scanner input;
     ArrayList listOfLists = new ArrayList(); //Class type: ArrayList
