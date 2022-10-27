@@ -31,7 +31,7 @@ public class BookApp {
             displayMenu();
             userInput = input.next();
 
-            if (userInput.equals("4")) {
+            if (userInput.equals("5")) {
                 keepRunning = false;
             } else {
                 processInput(userInput);
@@ -51,6 +51,8 @@ public class BookApp {
             addToList();
         } else if (userInput.equals("3")) {
             removeFromList();
+        } else if (userInput.equals("4")) {
+            displayBooks();
         } else {
             System.out.println("Invalid input");
         }
