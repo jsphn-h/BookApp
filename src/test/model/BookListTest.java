@@ -11,16 +11,16 @@ public class BookListTest {
 
     @BeforeEach
     void runBefore() {
-        testBook = new Book("Hunger Games", "Suzanne Collins", Genre.SCIFI,1);
-        testBook2 = new Book("Da Vinci Code", "Dan Brown", Genre.MYSTERY);
-        testBook3 = new Book("The Elite", "Kiera Cass", Genre.ROMANCE, 2);
+        testBook = new Book("Hunger Games", "Suzanne Collins", 1, Genre.SCIFI);
+        testBook2 = new Book("Da Vinci Code", "Dan Brown", 0, Genre.MYSTERY);
+        testBook3 = new Book("The Elite", "Kiera Cass", 2, Genre.ROMANCE);
 
         testList = new BookList("To Read");
         testList.add(testBook);
 
         testList2 = new BookList("Read");
         testList2.add(testBook2);
-        testList2.add(new Book("A Game of Thrones", "George R. R. Martin", Genre.FANTASY, 1));
+        testList2.add(new Book("A Game of Thrones", "George R. R. Martin", 1, Genre.FANTASY));
     }
 
     // Test Book

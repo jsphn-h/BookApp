@@ -11,9 +11,9 @@ class BookTest {
 
     @BeforeEach
     void runBefore() {
-        testBook = new Book("Hunger Games", "Suzanne Collins", Genre.SCIFI, 1);
-        testBook2 = new Book("The Passenger", "Cormac McCarthy", Genre.FICTION);
-        testBook3 = new Book("The Elite", "Kiera Cass", Genre.ROMANCE, 2);
+        testBook = new Book("Hunger Games", "Suzanne Collins", 1, Genre.SCIFI);
+        testBook2 = new Book("The Passenger", "Cormac McCarthy", 0, Genre.FICTION);
+        testBook3 = new Book("The Elite", "Kiera Cass", 2, Genre.ROMANCE);
     }
 
     @Test

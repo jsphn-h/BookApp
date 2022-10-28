@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 // Represents a library that contains lists of books
@@ -29,11 +28,24 @@ public class Library implements Writeable {
         lists.add(list);
     }
 
+    // EFFECTS: returns the specified list
+    public BookList findList(String listName) {
+        for (BookList list : lists) {
+            if (listName.equals(list.getListName())) {
+                return list;
+            } else {
+                System.out.println("The list doesn't exist.");
+            }
+        return null;
+    }
+
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("name", name);
-        json.put("lists", listsToJson());
+        json.put("library", name);
+        json.put("read", listsToJson());
+//        json.put("toRead", listsToJson());
+//        json.put("reading", listsToJson());
         return json;
     }
 

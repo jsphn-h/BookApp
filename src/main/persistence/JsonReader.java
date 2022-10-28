@@ -3,6 +3,7 @@ package persistence;
 import model.Genre;
 import model.Book;
 import model.BookList;
+import model.Library;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,7 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-import model.Library;
 import org.json.*;
 
 // Represents a reader that reads library from JSON data stored in file
@@ -44,19 +44,19 @@ public class JsonReader {
     // EFFECTS: parses workroom from JSON object and returns it
     private Library parseLibrary(JSONObject jsonObject) {
         String name = jsonObject.getString("name");
-        Library lb = new Library(name);
-        addLists(lb, jsonObject);
-        return lb;
+        Library lib = new Library(name);
+        addLists(lib, jsonObject);
+        return lib;
     }
 
     // MODIFIES: this
     // EFFECTS: parses lists from JSON object and adds them to library
-    private void addLists(Library lb, JSONObject jsonObject) {
+    private void addLists(Library lib, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("lists");
 
         for (Object json : jsonArray) {
             JSONObject nextList = (JSONObject) json;
-            addLists(lb, nextList);
+            addLists(lib, nextList);
         }
     }
 }

@@ -14,18 +14,16 @@ import java.util.Scanner;
 
 // This class "runs" the application. It has the menu and allows the user to interact with the app
 public class BookApp {
-    private static final String JSON_STORE = "./data/Library.json";
+    private static final String JSON_STORE = "./data/BookList.json";
     private Scanner input;
     private Library library;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    private ArrayList listOfLists = new ArrayList(); //Class type: ArrayList
-
     // EFFECTS: constructs and runs the book app
     public BookApp() throws FileNotFoundException {
         input = new Scanner(System.in);
-        library = new Library("Josephine's Library");
+        library = new Library("Library");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
@@ -45,7 +43,7 @@ public class BookApp {
             displayMenu();
             userInput = input.next();
 
-            if (userInput.equals("5")) {
+            if (userInput.equals("7")) {
                 keepRunning = false;
             } else {
                 processInput(userInput);
@@ -59,7 +57,7 @@ public class BookApp {
     private void processInput(String userInput) {
         switch (userInput) {
             case "1":
-                createList(listOfLists);
+                createList();
                 break;
             case "2":
                 addToList();
@@ -69,6 +67,12 @@ public class BookApp {
                 break;
             case "4":
                 displayBooks();
+                break;
+            case "5":
+                saveLists();
+                break;
+            case "6":
+                loadList();
                 break;
             default:
                 System.out.println("Invalid input");
@@ -90,13 +94,15 @@ public class BookApp {
         System.out.println("\t2) Add book to list");
         System.out.println("\t3) Remove book from list");
         System.out.println("\t4) Display books");
-        System.out.println("\t5) Exit");
+        System.out.println("\t5) Save lists");
+        System.out.println("\t6) Load library");
+        System.out.println("\t7) Exit");
         System.out.println("----- WARNING: you can't add/remove a book if no list has been created -----");
     }
 
     // MODIFIES: this
     // EFFECTS: creates a book list
-    private void createList(ArrayList listOfLists) {
+    private void createList() {
         System.out.println("Enter list name: ");
         String listName = input.next();
         Boolean validInput = false;
@@ -110,25 +116,16 @@ public class BookApp {
                 validInput = true;
             }
         }
-        listOfLists.add(new BookList(listName)); //Class type: BookList
+        library.addList(new BookList(listName)); //Class type: BookList
     }
 
     // MODIFIES: this
     // EFFECTS: adds a book to a specified list
     private void addToList() {
-        System.out.println("Enter the title: ");
-        String title = input.next();
-        while (!validStringInput(title)) {
-            title = input.next();
-        }
-
-        System.out.println("Enter the author: ");
-        String author = input.next();
-        while (!validStringInput(author)) {
-            author = input.next();
-        }
-
+        String title = readTitle();
+        String author = readAuthor();
         Genre genre = readGenre();
+        int seriesNum = readSeriesNum();
 
         System.out.println("Enter list to be added to: ");
         String listName = input.next();
@@ -137,25 +134,16 @@ public class BookApp {
         }
 
         BookList list = searchList(listName);
-        Book book = new Book(title, author, genre);
+        Book book = new Book(title, author, seriesNum, genre);
         list.addBook(book);
-        System.out.println(list.get(list.size() - 1).getTitle() + " has been added to " + list.getListName());
+        System.out.println(title + " has been added to " + list.getListName());
     }
 
     // MODIFIES: this
     // EFFECTS: removes a book to a specified list
     private void removeFromList() {
-        System.out.println("Enter the title: ");
-        String title = input.next();
-        while (!validStringInput(title)) {
-            title = input.next();
-        }
-
-        System.out.println("Enter the author: ");
-        String author = input.next();
-        while (!validStringInput(author)) {
-            author = input.next();
-        }
+        String title = readTitle();
+        String author = readAuthor();
 
         System.out.println("Enter list to remove the book from: ");
         String listName = input.next();
@@ -166,6 +154,26 @@ public class BookApp {
         BookList list = searchList(listName);
         String message = list.removeBook(title, author);
         System.out.println(message);
+    }
+
+    //EFFECTS: prompts user to enter the title of the book and returns it
+    private String readTitle() {
+        System.out.println("Enter the title: ");
+        String title = input.next();
+        while (!validStringInput(title)) {
+            title = input.next();
+        }
+        return title;
+    }
+
+    //EFFECTS: prompts user to enter the author and returns it
+    private String readAuthor() {
+        System.out.println("Enter the author: ");
+        String author = input.next();
+        while (!validStringInput(author)) {
+            author = input.next();
+        }
+        return author;
     }
 
     // EFFECTS: prompts user to select a genre and returns the selected genre
@@ -181,6 +189,16 @@ public class BookApp {
         return Genre.values()[selection - 1];
     }
 
+    // EFFECTS: prompts user to enter which book it is in the series and returns it
+    private int readSeriesNum() {
+        System.out.println("Book x in series (0 if it's not part of a series): ");
+        int seriesNum = input.nextInt();
+        while (seriesNum < 0) {
+            seriesNum = input.nextInt();
+        }
+        return seriesNum;
+    }
+
     // EFFECTS: display the book information of books in the list
     private void displayBooks() {
         System.out.println("List to display: ");
@@ -193,17 +211,9 @@ public class BookApp {
         System.out.println(list.displayBooks());
     }
 
-    // EFFECTS: searches for list (using listName) in listOfLists and returns the list
+    // EFFECTS: searches for list (using listName) in library and returns the list
     private BookList searchList(String listName) {
-        for (Object listOfList : listOfLists) {
-            BookList bookList = (BookList) listOfList;
-            if (listName.equals(bookList.getListName())) {
-                return (BookList) listOfList;
-            } else {
-                System.out.println("The list doesn't exist.");
-            }
-        }
-        return null;
+        return library.findList(listName);
     }
 
     // EFFECTS: checks whether the user input is valid
@@ -230,7 +240,7 @@ public class BookApp {
 
     // MODIFIES: this
     // EFFECTS: loads library from file
-    private void loadLibrary() {
+    private void loadList() {
         try {
             library = jsonReader.read();
             System.out.println("Loaded " + library.getName() + " from " + JSON_STORE);

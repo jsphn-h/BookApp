@@ -1,9 +1,11 @@
 package persistence;
 
+import model.BookList;
 import model.Library;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class JsonWriter {
     private static final int TAB = 4;
@@ -23,8 +25,8 @@ public class JsonWriter {
 
     // MODIFIES: this
     // EFFECTS: writes JSON representation of lists to file
-    public void write(Library bl) {
-        JSONObject json = bl.toJson();
+    public void write(Library lib) {
+        JSONObject json = lib.toJson();
         saveToFile(json.toString(TAB));
     }
 
