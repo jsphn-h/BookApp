@@ -1,20 +1,18 @@
 package ui;
 
-import model.Book;
-import model.BookList;
-import model.Genre;
-import model.Library;
+import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 // This class "runs" the application. It has the menu and allows the user to interact with the app
 public class BookApp {
-    private static final String JSON_STORE = "./data/BookList.json";
+    private static final String JSON_STORE = "./data/Library.json";
     private Scanner input;
     private Library library;
     private JsonWriter jsonWriter;
@@ -69,9 +67,12 @@ public class BookApp {
                 displayBooks();
                 break;
             case "5":
-                saveLists();
+                printLists();
                 break;
             case "6":
+                saveLists();
+                break;
+            case "7":
                 loadList();
                 break;
             default:
@@ -133,10 +134,10 @@ public class BookApp {
             listName = input.next();
         }
 
-        BookList list = searchList(listName);
-        Book book = new Book(title, author, seriesNum, genre);
-        list.addBook(book);
-        System.out.println(title + " has been added to " + list.getListName());
+//        BookList list = searchList(listName);
+//        Book book = new Book(title, author, seriesNum, genre);
+//        list.addBook(book);
+//        System.out.println(title + " has been added to " + list.getListName());
     }
 
     // MODIFIES: this
@@ -151,9 +152,9 @@ public class BookApp {
             listName = input.next();
         }
 
-        BookList list = searchList(listName);
-        String message = list.removeBook(title, author);
-        System.out.println(message);
+//        BookList list = searchList(listName);
+//        String message = list.removeBook(title, author);
+//        System.out.println(message);
     }
 
     //EFFECTS: prompts user to enter the title of the book and returns it
@@ -201,20 +202,37 @@ public class BookApp {
 
     // EFFECTS: display the book information of books in the list
     private void displayBooks() {
-        System.out.println("List to display: ");
-        String listName = input.next();
-        while (!validStringInput(listName)) {
-            listName = input.next();
+        System.out.println("display books");
+    }
+
+    // EFFECTS: display the list
+    private void printLists() {
+        List<List> lists = library.getLists();
+    }
+
+    // EFFECTS: prompts the user to select a list to display
+    private Lists readList() {
+        System.out.println("Please select a list to display: ");
+        int option = 1;
+        for (Lists l : Lists.values()) {
+            System.out.println(option + ": " + l);
+            option++;
         }
 
-        BookList list = searchList(listName);
-        System.out.println(list.displayBooks());
+        int selection = input.nextInt();
+        return Lists.values()[selection - 1];
     }
 
     // EFFECTS: searches for list (using listName) in library and returns the list
-    private BookList searchList(String listName) {
-        return library.findList(listName);
-    }
+//    private BookList searchList(String listName) {
+//        BookList listFound = library.findList(listName);
+//        while (listFound.isNull()) {
+//            System.out.println("Please enter an existing list: ");
+//            String newName = input.next();
+//            listFound = library.findList(newName);
+//        }
+//        return listFound;
+//    }
 
     // EFFECTS: checks whether the user input is valid
     private boolean validStringInput(String input) {

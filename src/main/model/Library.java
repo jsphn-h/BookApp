@@ -5,7 +5,10 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import java.util.Scanner;
 
 // Represents a library that contains lists of books
 public class Library implements Writeable {
@@ -28,6 +31,11 @@ public class Library implements Writeable {
         lists.add(list);
     }
 
+    // EFFECTS: returns an unmodifiable list of book lists
+    public List<List> getLists() {
+        return Collections.unmodifiableList(lists);
+    }
+
     // EFFECTS: returns the specified list
     public BookList findList(String listName) {
         for (BookList list : lists) {
@@ -36,6 +44,7 @@ public class Library implements Writeable {
             } else {
                 System.out.println("The list doesn't exist.");
             }
+        }
         return null;
     }
 
@@ -44,8 +53,8 @@ public class Library implements Writeable {
         JSONObject json = new JSONObject();
         json.put("library", name);
         json.put("read", listsToJson());
-//        json.put("toRead", listsToJson());
-//        json.put("reading", listsToJson());
+        json.put("toRead", listsToJson());
+        json.put("reading", listsToJson());
         return json;
     }
 
