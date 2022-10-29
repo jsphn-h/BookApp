@@ -34,7 +34,7 @@ public class Library implements Writeable {
     public void addBook(Lists selectedList, Book book) {
         System.out.println(selectedList.getClass());
         String listName = selectedList.toString();
-        
+        selectedList.addBook(book);
     }
 
     // EFFECTS: returns an unmodifiable list of book lists
@@ -69,7 +69,9 @@ public class Library implements Writeable {
         JSONArray jsonArray = new JSONArray();
 
         for (BookList l : lists) {
-            jsonArray.put(l.toJson());
+            for (Book b : l) {
+                jsonArray.put(b.toJson());
+            }
         }
 
         return jsonArray;

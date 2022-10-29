@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writeable;
 
@@ -55,4 +56,5 @@ public class Book implements Writeable {
         json.put("num", seriesNum);
         return json;
     }
+
 }

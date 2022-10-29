@@ -6,10 +6,7 @@ import persistence.JsonWriter;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 // This class "runs" the application. It has the menu and allows the user to interact with the app
 public class BookApp {
@@ -42,7 +39,7 @@ public class BookApp {
             displayMenu();
             userInput = input.next();
 
-            if (userInput.equals("7")) {
+            if (userInput.equals("8")) {
                 keepRunning = false;
             } else {
                 processInput(userInput);
@@ -67,7 +64,6 @@ public class BookApp {
             case "4":
                 addToList();
                 break;
-
             case "6":
                 saveLibrary();
                 break;
@@ -218,7 +214,10 @@ public class BookApp {
         Lists selectedList = readList();
         String key = selectedList.name().toString();
         System.out.println(library.getLists().getClass());
-        Iterator<List> iterator = library.getLists().iterator();
+
+        Collection<List> lists = library.getLists();
+        Iterator<List> iterator = lists.iterator(); // iterator on the immutable list
+        // print the immutable list
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }
@@ -266,6 +265,7 @@ public class BookApp {
     // MODIFIES: this
     // EFFECTS: loads library from file
     private void loadLibrary() {
+        System.out.println("Load library");
         try {
             library = jsonReader.read();
             System.out.println("Loaded " + library.getName() + " from " + JSON_STORE);

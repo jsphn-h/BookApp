@@ -1,8 +1,7 @@
 package persistence;
 
-import model.Genre;
 import model.Book;
-import model.BookList;
+import model.Genre;
 import model.Library;
 
 import java.io.IOException;
@@ -43,20 +42,30 @@ public class JsonReader {
 
     // EFFECTS: parses workroom from JSON object and returns it
     private Library parseLibrary(JSONObject jsonObject) {
-        String name = jsonObject.getString("name");
+        String name = jsonObject.getString("library");
         Library lib = new Library(name);
-        addLists(lib, jsonObject);
+        addBookList(lib, jsonObject);
         return lib;
     }
 
-    // MODIFIES: this
+    // MODIFIES: lib
     // EFFECTS: parses lists from JSON object and adds them to library
-    private void addLists(Library lib, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("lists");
-
+    private void addBookList(Library lib, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("read");
         for (Object json : jsonArray) {
             JSONObject nextList = (JSONObject) json;
-            addLists(lib, nextList);
+            addBook(lib, nextList);
         }
+    }
+
+    // MODIFIES: lib
+    // EFFECTS: parses book from JSON object and adds it to workroom
+    private void addBook(Library lib, JSONObject jsonObject) {
+        String title = jsonObject.getString("title");
+        String author = jsonObject.getString("author");
+        int seriesNum = jsonObject.getInt("seriesNum");
+        Genre genre = Genre.valueOf(jsonObject.getString("genre"));
+        Book book = new Book(title, author, seriesNum, genre);
+        lib.addBook(book);
     }
 }

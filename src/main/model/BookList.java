@@ -5,11 +5,12 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 //This class creates reading lists that contains books
 public class BookList extends ArrayList<Book> implements Writeable {
     private final String listName;    // the name of the list
-    private ArrayList<Book> books;
+    private List<Book> books;
 
     // REQUIRES: listName has non-zero length
     //  EFFECTS: creates a list with the name set to specified name, with Book objects
@@ -21,9 +22,8 @@ public class BookList extends ArrayList<Book> implements Writeable {
     // REQUIRES: book object
     // MODIFIES: this
     // EFFECTS: creates and adds a book to the list
-    public String addBook(Book book) {
+    public void addBook(Book book) {
         books.add(book);
-        return book.getTitle();
     }
 
     // REQUIRES: title, author
