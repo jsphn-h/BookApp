@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import java.util.Scanner;
-
 // Represents a library that contains lists of books
 public class Library implements Writeable {
     private String name;
@@ -29,6 +27,14 @@ public class Library implements Writeable {
     // EFFECTS: adds book list to this library
     public void addList(BookList list) {
         lists.add(list);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds a book to a list
+    public void addBook(Lists selectedList, Book book) {
+        System.out.println(selectedList.getClass());
+        String listName = selectedList.toString();
+        
     }
 
     // EFFECTS: returns an unmodifiable list of book lists

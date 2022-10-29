@@ -7,6 +7,7 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
@@ -55,25 +56,23 @@ public class BookApp {
     private void processInput(String userInput) {
         switch (userInput) {
             case "1":
-                createList();
+                displayLists();
                 break;
             case "2":
-                addToList();
+                displayBooks();
                 break;
             case "3":
                 removeFromList();
                 break;
             case "4":
-                displayBooks();
+                addToList();
                 break;
-            case "5":
-                printLists();
-                break;
+
             case "6":
-                saveLists();
+                saveLibrary();
                 break;
             case "7":
-                loadList();
+                loadLibrary();
                 break;
             default:
                 System.out.println("Invalid input");
@@ -91,34 +90,34 @@ public class BookApp {
     // EFFECTS: displays menu with action choices to user
     public void displayMenu() {
         System.out.println("Please select an option below:");
-        System.out.println("\t1) Create a list");
-        System.out.println("\t2) Add book to list");
+        System.out.println("\t1) Display lists");
+        System.out.println("\t2) Display books");
         System.out.println("\t3) Remove book from list");
-        System.out.println("\t4) Display books");
-        System.out.println("\t5) Save lists");
-        System.out.println("\t6) Load library");
-        System.out.println("\t7) Exit");
+        System.out.println("\t4) Add book to list");
+        System.out.println("\t6) Save library");
+        System.out.println("\t7) Load library");
+        System.out.println("\t8) Exit");
         System.out.println("----- WARNING: you can't add/remove a book if no list has been created -----");
     }
 
     // MODIFIES: this
     // EFFECTS: creates a book list
-    private void createList() {
-        System.out.println("Enter list name: ");
-        String listName = input.next();
-        Boolean validInput = false;
-
-        while (!validInput) {
-            if (!validStringInput(listName)) {
-                listName = input.next();
-            } else {
-                new BookList(listName);
-                System.out.println("The list '" + listName + "' has been created. \n");
-                validInput = true;
-            }
-        }
-        library.addList(new BookList(listName)); //Class type: BookList
-    }
+//    private void createList() {
+//        System.out.println("Enter list name: ");
+//        String listName = input.next();
+//        Boolean validInput = false;
+//
+//        while (!validInput) {
+//            if (!validStringInput(listName)) {
+//                listName = input.next();
+//            } else {
+//                new BookList(listName);
+//                System.out.println("The list '" + listName + "' has been created. \n");
+//                validInput = true;
+//            }
+//        }
+//        library.addList(new BookList(listName)); //Class type: BookList
+//    }
 
     // MODIFIES: this
     // EFFECTS: adds a book to a specified list
@@ -128,13 +127,13 @@ public class BookApp {
         Genre genre = readGenre();
         int seriesNum = readSeriesNum();
 
-        System.out.println("Enter list to be added to: ");
-        String listName = input.next();
-        while (!validStringInput(listName)) {
-            listName = input.next();
-        }
+        Book book = new Book(title, author, seriesNum, genre);
+        System.out.println("Select list to add book to: ");
+        Lists selectedList = readList();
+        System.out.println(selectedList.name());
+        library.addBook(selectedList, book);
 
-//        BookList list = searchList(listName);
+//        selectedList.addBook(new Book(title, author, seriesNum, genre));
 //        Book book = new Book(title, author, seriesNum, genre);
 //        list.addBook(book);
 //        System.out.println(title + " has been added to " + list.getListName());
@@ -177,6 +176,18 @@ public class BookApp {
         return author;
     }
 
+    // EFFECTS: prompts user to select a list to add book to
+    private Lists readList() {
+        int option = 1;
+        for (Lists l : Lists.values()) {
+            System.out.println(option + ": " + l);
+            option++;
+        }
+
+        int selection = input.nextInt();
+        return Lists.values()[selection - 1];
+    }
+
     // EFFECTS: prompts user to select a genre and returns the selected genre
     private Genre readGenre() {
         System.out.println("Please select a genre for the book: ");
@@ -203,24 +214,20 @@ public class BookApp {
     // EFFECTS: display the book information of books in the list
     private void displayBooks() {
         System.out.println("display books");
-    }
-
-    // EFFECTS: display the list
-    private void printLists() {
-        List<List> lists = library.getLists();
+        System.out.println("Please select a list to display: ");
+        Lists selectedList = readList();
+        String key = selectedList.name().toString();
+        System.out.println(library.getLists().getClass());
+        Iterator<List> iterator = library.getLists().iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
     }
 
     // EFFECTS: prompts the user to select a list to display
-    private Lists readList() {
-        System.out.println("Please select a list to display: ");
-        int option = 1;
-        for (Lists l : Lists.values()) {
-            System.out.println(option + ": " + l);
-            option++;
-        }
-
-        int selection = input.nextInt();
-        return Lists.values()[selection - 1];
+    private void displayLists() {
+        System.out.println("Display lists");
+        System.out.println(java.util.Arrays.asList(Lists.values()));
     }
 
     // EFFECTS: searches for list (using listName) in library and returns the list
@@ -245,7 +252,7 @@ public class BookApp {
     }
 
     // EFFECTS: saves the lists to file
-    private void saveLists() {
+    private void saveLibrary() {
         try {
             jsonWriter.open();
             jsonWriter.write(library);
@@ -258,7 +265,7 @@ public class BookApp {
 
     // MODIFIES: this
     // EFFECTS: loads library from file
-    private void loadList() {
+    private void loadLibrary() {
         try {
             library = jsonReader.read();
             System.out.println("Loaded " + library.getName() + " from " + JSON_STORE);
