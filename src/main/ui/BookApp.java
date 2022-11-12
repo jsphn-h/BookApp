@@ -26,7 +26,7 @@ public class BookApp {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
-        System.out.println("Welcome to BookApp!\n");
+        System.out.println("Welcome to BookApp!");
         runApp();
     }
 
@@ -91,6 +91,7 @@ public class BookApp {
 
     // EFFECTS: displays menu with action choices to user
     public void displayMenu() {
+        System.out.println();
         System.out.println("Please select an option below:");
         System.out.println("\t1) Display lists");
         System.out.println("\t2) Display all books");
@@ -116,6 +117,7 @@ public class BookApp {
         // print the immutable list
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
+            System.out.println();
         }
     }
 
@@ -154,10 +156,11 @@ public class BookApp {
     // MODIFIES: this
     // EFFECTS: removes a book to a specified list
     private void removeFromList() {
-        String title = readTitle();
-        String author = readAuthor();
-
         System.out.println("This function is currently not available. Please try something else.");
+
+        //        String title = readTitle();
+//        String author = readAuthor();
+
 //        System.out.println("Enter list to remove the book from: ");
 //        String listName = input.next();
 //        while (!validStringInput(listName)) {
