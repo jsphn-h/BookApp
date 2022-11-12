@@ -22,9 +22,10 @@ Why is this project of interest to me?
 ## User Stories
 
 - As a user, I want to be able to add books to the database (title, genre/tags, blurb, etc.)
+- As a user, I want to be able to view all of my books
 - As a user, I want to be able to add books to my lists
 - As a user, I want to be able to remove books from my lists
-- As a user, I want to be able to view my lists 
+- As a user, I want to be able to view my lists
 - As a user, I want to be able to select a list and view the books in the list 
 - As a user, I want to be able to select a genre and view the books within that genre 
 - As a user, I want to be able to get book recommendations from my To-Read list

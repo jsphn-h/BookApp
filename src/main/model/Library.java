@@ -24,15 +24,17 @@ public class Library implements Writeable {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds book list to this library
-//    public void addList(BookList list) {
-//        lists.add(list);
-//    }
-
-    // MODIFIES: this
     // EFFECTS: adds a book to a list
     public void addBook(Book book) {
         books.add(book);
+    }
+
+    // EFFECTS: removes a book from a list
+    public void removeBook(String title, String author) {
+        List<Book> newList = new ArrayList<>();
+        for (Book b : getBooks()) {
+            System.out.println(b);
+        }
     }
 
     // EFFECTS: returns an unmodifiable list of book lists
@@ -40,17 +42,6 @@ public class Library implements Writeable {
         return Collections.unmodifiableList(books);
     }
 
-    // EFFECTS: returns the specified list
-//    public BookList findList(String listName) {
-//        for (BookList list : books) {
-//            if (listName.equals(list.getListName())) {
-//                return list;
-//            } else {
-//                System.out.println("The list doesn't exist.");
-//            }
-//        }
-//        return null;
-//    }
 
     @Override
     public JSONObject toJson() {

@@ -156,16 +156,19 @@ public class BookApp {
     // MODIFIES: this
     // EFFECTS: removes a book to a specified list
     private void removeFromList() {
-        System.out.println("This function is currently not available. Please try something else.");
+        String title = readTitle();
+        String author = readAuthor();
+        var key = title;
 
-        //        String title = readTitle();
-//        String author = readAuthor();
-
-//        System.out.println("Enter list to remove the book from: ");
-//        String listName = input.next();
-//        while (!validStringInput(listName)) {
-//            listName = input.next();
-//        }
+        List<Book> newList = new ArrayList<>();
+        System.out.println("LOOP\n");
+        for (Book b : library.getBooks()) {
+            if (b.getTitle().equals(title)) {
+                if (b.getAuthor().equals(author)) {
+                    System.out.println(b);
+                }
+            }
+        }
     }
 
     //------ READ USER INPUT FUNCTIONS ------
