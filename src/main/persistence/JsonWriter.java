@@ -5,7 +5,6 @@ import model.Library;
 import org.json.JSONObject;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public class JsonWriter {
     private static final int TAB = 4;

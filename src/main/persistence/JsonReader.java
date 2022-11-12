@@ -1,13 +1,12 @@
 package persistence;
 
-import model.Book;
-import model.Genre;
-import model.Library;
+import model.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.json.*;
@@ -44,28 +43,32 @@ public class JsonReader {
     private Library parseLibrary(JSONObject jsonObject) {
         String name = jsonObject.getString("library");
         Library lib = new Library(name);
-        addBookList(lib, jsonObject);
+        addBook(lib, jsonObject.getJSONArray("lists"));
         return lib;
     }
 
     // MODIFIES: lib
     // EFFECTS: parses lists from JSON object and adds them to library
-    private void addBookList(Library lib, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("read");
-        for (Object json : jsonArray) {
-            JSONObject nextList = (JSONObject) json;
-            addBook(lib, nextList);
-        }
-    }
+//    private void addBookList(Library lib, JSONObject jsonObject) {
+//        JSONArray jsonArray = jsonObject.getJSONArray("");
+//        for (Object json : jsonArray) {
+//            JSONObject nextBook = (JSONObject) json;
+//            addBook(lib, nextBook);
+//        }
+//    }
 
     // MODIFIES: lib
     // EFFECTS: parses book from JSON object and adds it to workroom
-    private void addBook(Library lib, JSONObject jsonObject) {
-        String title = jsonObject.getString("title");
-        String author = jsonObject.getString("author");
-        int seriesNum = jsonObject.getInt("seriesNum");
-        Genre genre = Genre.valueOf(jsonObject.getString("genre"));
-        Book book = new Book(title, author, seriesNum, genre);
-        lib.addBook(book);
+    private void addBook(Library lib, JSONArray jsonArray) {
+        for (Object book : jsonArray) {
+            JSONObject jsonObject = (JSONObject) book; // JSONObject has properties we want to use e.g. getString
+            String title = jsonObject.getString("title");
+            String author = jsonObject.getString("author");
+            int seriesNum = jsonObject.getInt("num");
+            Genre genre = Genre.valueOf(jsonObject.getString("genre"));
+            Lists list = Lists.valueOf(jsonObject.getString("lists"));
+            Book actualBook = new Book(title, author, seriesNum, genre, list);
+            lib.addBook(actualBook);
+        }
     }
 }
