@@ -29,6 +29,12 @@ public class Library implements Writeable {
         books.add(book);
     }
 
+    // MODIFIES: this
+    // EFFECTS: replaces old list with new one after deleting a book
+    public void removeBook(ArrayList<Book> books) {
+        this.books = books;
+    }
+
     // EFFECTS: removes a book from a list
     public void removeBook(String title, String author) {
         List<Book> newList = new ArrayList<>();

@@ -68,7 +68,7 @@ public class BookApp {
                 addToList();
                 break;
             case "5":
-                removeFromList();
+                removeBook();
                 break;
             case "6":
                 saveLibrary();
@@ -124,7 +124,6 @@ public class BookApp {
     private void displayBooksInList() {
         System.out.println("Please select a list to display: ");
         Lists selectedList = readList();
-        String listString = selectedList.name().toString();
 
         Collection<Book> lists = library.getBooks();
         Iterator<Book> iterator = lists.iterator(); // iterator on the immutable list
@@ -155,20 +154,22 @@ public class BookApp {
 
     // MODIFIES: this
     // EFFECTS: removes a book to a specified list
-    private void removeFromList() {
+    private void removeBook() {
         String title = readTitle();
         String author = readAuthor();
         var key = title;
 
-        List<Book> newList = new ArrayList<>();
+        ArrayList<Book> newList = new ArrayList<>();
         System.out.println("LOOP\n");
+        int idx = 0;
         for (Book b : library.getBooks()) {
-            if (b.getTitle().equals(title)) {
-                if (b.getAuthor().equals(author)) {
-                    System.out.println(b);
+            if (!b.getTitle().equals(title)) {
+                if (!b.getAuthor().equals(author)) {
+                    newList.add(b);
                 }
             }
         }
+        library.removeBook(newList);
     }
 
     //------ READ USER INPUT FUNCTIONS ------
