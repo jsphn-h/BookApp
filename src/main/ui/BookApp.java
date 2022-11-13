@@ -55,27 +55,29 @@ public class BookApp {
     // EFFECTS: processes user input
     private void processInput(String userInput) {
         switch (userInput) {
-            case "1":
-                displayLists();
+            case "1": displayLists();
                 break;
-            case "2":
-                displayAllBooks();
+            case "2": displayAllBooks();
                 break;
-            case "3":
-                displayBooksInList();
+            case "3": displayBooksInList();
                 break;
-            case "4":
-                addToList();
+            case "4": addToList();
                 break;
-            case "5":
-                removeBook();
+            case "5": removeBook();
                 break;
-            case "6":
-                saveLibrary();
+            case "6": saveLibrary();
                 break;
-            case "7":
-                loadLibrary();
+            case "7": loadLibrary();
                 break;
+            default:
+                System.out.println("Invalid input");
+                break;
+        }
+    }
+
+    private void processDisplayInput(String userInput) {
+        switch (userInput) {
+
             default:
                 System.out.println("Invalid input");
                 break;
@@ -103,6 +105,7 @@ public class BookApp {
         System.out.println("\t8) Exit");
         System.out.println("----- Please load the library to see your books -----");
     }
+
 
     // ----- MENU FUNCTIONS ------
     // EFFECTS: displays the name of the lists
@@ -157,7 +160,6 @@ public class BookApp {
     private void removeBook() {
         String title = readTitle();
         String author = readAuthor();
-        var key = title;
 
         ArrayList<Book> newList = new ArrayList<>();
         System.out.println("LOOP\n");
