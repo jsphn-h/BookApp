@@ -6,15 +6,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BookAppGUI extends JFrame {
-    private static JButton displayAll = new JButton();
-    protected static JButton displayList = new JButton();
+    private static JButton displayAllButton = new JButton();
+    private static JButton displayListsButton = new JButton();
+    private static JButton displayBooksButton = new JButton();
+    private static JButton addBookButton = new JButton();
+    private static JButton removeBookButton = new JButton();
+    private static JButton saveLibButton = new JButton();
+    private static JButton loadLibButton = new JButton();
+
 
     public static void addComponentsToPane(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
         addButton(displayAllBooks(), pane);
-        addButton(displayList(), pane);
-
+        addButton(displayLists(), pane);
+        addButton(booksInList(), pane);
+        addButton(addBook(), pane);
+        addButton(removeBook(), pane);
+        addButton(saveLibrary(), pane);
+        addButton(loadLibrary(), pane);
     }
 
     private static void addButton(JButton button, Container container) {
@@ -22,26 +32,49 @@ public class BookAppGUI extends JFrame {
         container.add(button);
     }
 
-    private static JButton displayAllBooks() {
-        displayAll.setText("Display all books");
-//        displayAll.setBounds(40, 40, 100, 30);
-        displayAll.addActionListener(new ActionListener() {
+    private static JButton displayLists() {
+        displayListsButton.setText("Display lists");
+        displayListsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(displayAll, "Hello World!");
+                JOptionPane.showMessageDialog(displayAllButton, "Lists");
             }
         });
-        return displayAll;
+        return displayListsButton;
     }
 
-    private static JButton displayList() {
-        displayList.setText("Display list");
-//        displayAll.setBounds(40, 60, 100, 30);
-        displayList.addActionListener(new ActionListener() {
+    private static JButton displayAllBooks() {
+        displayAllButton.setText("Display all books");
+        displayAllButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(displayAll, "Books in list");
+                JOptionPane.showMessageDialog(displayAllButton, "Hello World!");
             }
         });
-        return displayList;
+        return displayAllButton;
+    }
+
+    private static JButton booksInList() {
+        displayBooksButton.setText("Display books in list books");
+        return displayBooksButton;
+    }
+
+    private static JButton addBook() {
+        addBookButton.setText("Add book to list");
+        return addBookButton;
+    }
+
+    private static JButton removeBook() {
+        removeBookButton.setText("Remove book from list");
+        return removeBookButton;
+    }
+
+    private static JButton saveLibrary() {
+        saveLibButton.setText("Save library");
+        return saveLibButton;
+    }
+
+    private static JButton loadLibrary() {
+        loadLibButton.setText("Load library");
+        return loadLibButton;
     }
 
     public static void createAndShowGUI() {
