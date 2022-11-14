@@ -5,29 +5,54 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BookAppGUI extends JPanel implements ActionListener {
-    protected JButton displayAll;
-    protected JButton displayList;
+public class BookAppGUI extends JFrame {
+    private static JButton displayAll = new JButton();
+    protected static JButton displayList = new JButton();
 
-    public BookAppGUI() {
-        displayAll = new JButton("Display all books");
+    public static void addComponentsToPane(Container pane) {
+        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+        addButton(displayAllBooks(), pane);
+        addButton(displayList(), pane);
+
     }
 
-    public void actionPerformed(ActionEvent e) {
+    private static void addButton(JButton button, Container container) {
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        container.add(button);
+    }
 
+    private static JButton displayAllBooks() {
+        displayAll.setText("Display all books");
+//        displayAll.setBounds(40, 40, 100, 30);
+        displayAll.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(displayAll, "Hello World!");
+            }
+        });
+        return displayAll;
+    }
+
+    private static JButton displayList() {
+        displayList.setText("Display list");
+//        displayAll.setBounds(40, 60, 100, 30);
+        displayList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(displayAll, "Books in list");
+            }
+        });
+        return displayList;
     }
 
     public static void createAndShowGUI() {
-        //Create and set up the window
+        // Create window
         JFrame frame = new JFrame("BookApp");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        //Create and set up the content pane
-        BookAppGUI newContentPane = new BookAppGUI();
-        newContentPane.setOpaque(true);
-        frame.setContentPane(newContentPane);
+        // Set up content pane
+        addComponentsToPane(frame.getContentPane());
 
-        //Display the window
+        // Display window
         frame.pack();
         frame.setVisible(true);
     }
