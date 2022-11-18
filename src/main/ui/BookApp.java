@@ -26,54 +26,54 @@ public class BookApp {
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
 
-        System.out.println("Welcome to BookApp!");
-        runApp();
+//        System.out.println("Welcome to BookApp!");
+//        runApp();
     }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void runApp() {
-        boolean keepRunning = true;
-        String userInput;
-
-        init();
-
-        while (keepRunning) {
-            displayMenu();
-            userInput = input.next();
-
-            if (userInput.equals("8")) {
-                keepRunning = false;
-            } else {
-                processInput(userInput);
-            }
-        }
-        System.out.println("Keep on reading!");
-    }
+//    private void runApp() {
+//        boolean keepRunning = true;
+//        String userInput;
+//
+//        init();
+//
+//        while (keepRunning) {
+//            displayMenu();
+//            userInput = input.next();
+//
+//            if (userInput.equals("8")) {
+//                keepRunning = false;
+//            } else {
+//                processInput(userInput);
+//            }
+//        }
+//        System.out.println("Keep on reading!");
+//    }
 
     // MODIFIES: this
     // EFFECTS: processes user input
-    private void processInput(String userInput) {
-        switch (userInput) {
-            case "1": displayLists();
-                break;
-            case "2": displayAllBooks();
-                break;
-            case "3": displayBooksInList();
-                break;
-            case "4": addToList();
-                break;
-            case "5": removeBook();
-                break;
-            case "6": saveLibrary();
-                break;
-            case "7": loadLibrary();
-                break;
-            default:
-                System.out.println("Invalid input");
-                break;
-        }
-    }
+//    private void processInput(String userInput) {
+//        switch (userInput) {
+//            case "1": getLists();
+//                break;
+//            case "2": displayAllBooks();
+//                break;
+//            case "3": displayBooksInList();
+//                break;
+//            case "4": addToList();
+//                break;
+//            case "5": removeBook();
+//                break;
+//            case "6": saveLibrary();
+//                break;
+//            case "7": loadLibrary();
+//                break;
+//            default:
+//                System.out.println("Invalid input");
+//                break;
+//        }
+//    }
 
     private void processDisplayInput(String userInput) {
         switch (userInput) {
@@ -109,47 +109,55 @@ public class BookApp {
 
     // ----- MENU FUNCTIONS ------
     // EFFECTS: displays the name of the lists
-    private void displayLists() {
-        System.out.println(Arrays.asList(Lists.values()));
+    public static String getLists() {
+        String lists = "";
+        for (Lists l : Arrays.asList(Lists.values())) {
+            lists += (l + ", ");
+        }
+
+        return lists;
     }
 
     // EFFECTS: display the book information of books in the list
-    private void displayAllBooks() {
+    public ArrayList displayAllBooks() {
         Collection<Book> lists = library.getBooks();
         Iterator<Book> iterator = lists.iterator(); // iterator on the immutable list
+        ArrayList<Book> books = new ArrayList<>();
         // print the immutable list
         while (iterator.hasNext()) {
-            System.out.println(iterator.next());
-            System.out.println();
+            books.add(iterator.next());
         }
+        return books;
     }
 
-    private void displayBooksInList() {
-        System.out.println("Please select a list to display: ");
-        Lists selectedList = readList();
+    public ArrayList<Book> displayBooksInList(String list) {
+//        System.out.println("Please select a list to display: ");
+        Lists selectedList = readList(list);
 
         Collection<Book> lists = library.getBooks();
         Iterator<Book> iterator = lists.iterator(); // iterator on the immutable list
+        ArrayList<Book> books = new ArrayList<>(); // list of books
         // print the immutable list
         while (iterator.hasNext()) {
             Book nextBook = iterator.next();
             if (nextBook.getList().equals(selectedList)) {
-                System.out.println(nextBook);
-                System.out.println();
+                books.add(nextBook);
             }
         }
+        return books;
     }
 
     // MODIFIES: this
     // EFFECTS: adds a book to a specified list
-    private void addToList() {
-        String title = readTitle();
-        String author = readAuthor();
-        Genre genre = readGenre();
-        int seriesNum = readSeriesNum();
+    public void addToList(String title, String author, int seriesNum, String selectedGenre, String listInput) {
+//        String title = readTitle();
+//        String author = readAuthor();
+//        int seriesNum = readSeriesNum();
 
-        System.out.println("Select list to add book to: ");
-        Lists list = readList();
+        Genre genre = readGenre(selectedGenre);
+
+//        System.out.println("Select list to add book to: ");
+        Lists list = readList(listInput);
         Book book = new Book(title, author, seriesNum, genre, list);
         library.addBook(book);
         System.out.println(title + " has been added to " + list.toString());
@@ -157,7 +165,7 @@ public class BookApp {
 
     // MODIFIES: this
     // EFFECTS: removes a book to a specified list
-    private void removeBook() {
+    public void removeBook() {
         String title = readTitle();
         String author = readAuthor();
 
@@ -196,27 +204,55 @@ public class BookApp {
     }
 
     // EFFECTS: prompts user to select a list to add book to
-    private Lists readList() {
-        int option = 1;
-        for (Lists l : Lists.values()) {
-            System.out.println(option + ": " + l);
-            option++;
+    private Lists readList(String list) {
+//        int option = 1;
+//        for (Lists l : Lists.values()) {
+//            System.out.println(option + ": " + l);
+//            option++;
+//        }
+        int selection = 0;
+        if (list.equals("Wishlist")) {
+            selection = 1;
+        } else if (list.equals("Read")) {
+            selection = 2;
+        } else if (list.equals("Reading")) {
+            selection = 3;
         }
 
-        int selection = input.nextInt();
+//        int selection = input.nextInt();
         return Lists.values()[selection - 1];
     }
 
     // EFFECTS: prompts user to select a genre and returns the selected genre
-    private Genre readGenre() {
-        System.out.println("Please select a genre for the book: ");
-        int option = 1;
-        for (Genre g : Genre.values()) {
-            System.out.println(option + ": " + g);
-            option++;
-        }
+    private Genre readGenre(String genre) {
+//        int option = 1;
+//        for (Genre g : Genre.values()) {
+//            System.out.println(option + ": " + g);
+//            option++;
+//        }
 
-        int selection = input.nextInt();
+//        int selection = input.nextInt();
+        int selection = 0;
+        if (genre.equals("Fiction")) {
+            selection = 1;
+        } else if (genre.equals("Romance")) {
+            selection = 2;
+        } else if (genre.equals("Fantasy")) {
+            selection = 3;
+        } else if (genre.equals("Mystery")) {
+            selection = 4;
+        } else if (genre.equals("Thriller")) {
+            selection = 5;
+        } else if (genre.equals("Action")) {
+            selection = 6;
+        } else if (genre.equals("Horror")) {
+            selection = 7;
+        } else if (genre.equals("Sci-Fi")) {
+            selection = 8;
+        } else if (genre.equals("Nonfiction")) {
+            selection = 9;
+        }
+        System.out.println(Genre.values()[selection - 1]);
         return Genre.values()[selection - 1];
     }
 
@@ -242,25 +278,33 @@ public class BookApp {
 
     // ----- LIBRARY FUNCTIONS -----
     // EFFECTS: saves the lists to file
-    private void saveLibrary() {
+    public String saveLibrary() {
+        String message = "";
         try {
             jsonWriter.open();
             jsonWriter.write(library);
             jsonWriter.close();
-            System.out.println("Saved" + library.getName() + " to " + JSON_STORE);
+            message = "Saved" + library.getName() + " to " + JSON_STORE;
+//            System.out.println("Saved" + library.getName() + " to " + JSON_STORE);
         } catch (FileNotFoundException e) {
+            message = "Unable to write to file: " + JSON_STORE;
             System.out.println("Unable to write to file: " + JSON_STORE);
         }
+        return message;
     }
 
     // MODIFIES: this
     // EFFECTS: loads library from file
-    private void loadLibrary() {
+    public String loadLibrary() {
+        String message = "";
         try {
             library = jsonReader.read();
-            System.out.println("Loaded " + library.getName() + " from " + JSON_STORE);
+            message = "Loaded " + library.getName() + " from " + JSON_STORE;
+//            System.out.println("Loaded " + library.getName() + " from " + JSON_STORE);
         } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
+            message = "Unable to read from file: " + JSON_STORE;
+//            System.out.println("Unable to read from file: " + JSON_STORE);
         }
+        return message;
     }
 }

@@ -8,11 +8,16 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) throws FileNotFoundException {
-//        new BookApp();
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                BookAppGUI.createAndShowGUI();
+                try {
+                    BookAppGUI bookAppGUI = new BookAppGUI();
+                    bookAppGUI.createAndShowGUI();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
+//        new BookApp();
     }
 }
