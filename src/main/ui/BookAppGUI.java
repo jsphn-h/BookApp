@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+// creates a GUI for BookApp so users only have to interact with it (and not the console)
 public class BookAppGUI extends JFrame {
     private BookApp bookApp;
 
@@ -20,10 +21,12 @@ public class BookAppGUI extends JFrame {
     private JButton loadLibButton = new JButton();
     private JButton displayWishlist = new JButton();
 
+    // EFFECTS: creates bookApp so we can use its functions
     public BookAppGUI() throws FileNotFoundException {
         bookApp = new BookApp();
     }
 
+    // EFFECTS: adding menu buttons to startup window
     public void addComponentsToPane(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
@@ -207,88 +210,79 @@ public class BookAppGUI extends JFrame {
         GridBagConstraints c = new GridBagConstraints();
 
         createLabels(panel, c);
-        createTextFields(panel, c);
+        JTextField titleField = createTextField(20, 1, 0, c);
+        panel.add(titleField, c);
+        JTextField authorField = createTextField(20, 1, 1, c);
+        panel.add(authorField, c);
+        JTextField seriesNumField = createTextField(20, 1, 2, c);
+        panel.add(seriesNumField, c);
+
         String genre = selectGenre(panel, c);
-        String list = selectList(panel, c);
+        JComboBox comboBox = createComboBox(panel, c);
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Add Book to List",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        String choice = "";
         switch (result) {
             case JOptionPane.OK_OPTION:
-                String[] userAnswers = getTextFields(panel, c);
-                processInputs(userAnswers, genre, list);
+                String[] userAnswers = getUserAnswer(titleField.getText(), authorField.getText(), seriesNumField.getText()); //HOW TO GET USER INPUT FROM FIELDS?
+                message = processInputs(userAnswers, genre, comboBox.getSelectedItem().toString());
                 break;
         }
-        return "Book has been added to " + choice + "!";
+        return message;
     }
 
     private void createLabels(JPanel panel, GridBagConstraints c) {
         JLabel label;
 
-        label = new JLabel("Title: ");
+        label = createLabel("Title: ", 0, 0, c);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 0;
         panel.add(label, c);
 
-        label = new JLabel("Author: ");
+        label = createLabel("Author: ", 0, 1, c);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 1;
         panel.add(label, c);
 
-        label = new JLabel("Book x in series: ");
+        label = createLabel("Book x in series: ", 0, 2, c);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 2;
         panel.add(label, c);
     }
 
-    private void createTextFields(JPanel panel, GridBagConstraints c) {
-        JTextField titleField;
-        JTextField authorField;
-        JTextField seriesNumField;
-
-        titleField = new JTextField(20);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 0;
-        panel.add(titleField, c);
-
-        authorField = new JTextField(20);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 1;
-        panel.add(authorField, c);
-
-        seriesNumField = new JTextField(20);
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 2;
-        panel.add(seriesNumField, c);
+    private JLabel createLabel(String text, int x, int y, GridBagConstraints c) {
+        JLabel label = new JLabel(text);
+        c.gridx = x;
+        c.gridy = y;
+        return label;
     }
 
-    private String[] getTextFields(JPanel panel, GridBagConstraints c) {
-        String[] userAnswer = new String[3];
+    private JTextField createTextField(int col, int x, int y, GridBagConstraints c) {
+        JTextField textField = new JTextField(20);
+        c.gridx = x;
+        c.gridy = y;
+        return textField;
+    }
 
-        JTextField titleField = (JTextField) panel.getComponentAt(1, 0);
-        JTextField authorField;
-        JTextField seriesNumField;
+    private String[] getUserAnswer(String title, String author) {
+        String[] userAnswer = new String[2];
 
-        userAnswer[0] = titleField.getText();
+        userAnswer[0] = title;
+        userAnswer[1] = author;
 
-        System.out.println(userAnswer[0]);
-        System.out.println(userAnswer[1]);
-        System.out.println("2: " + userAnswer[2]);
         return userAnswer;
     }
 
-    private String selectList(JPanel panel, GridBagConstraints c) {
-        JLabel label = new JLabel("Please select a list:  ");
+    private String[] getUserAnswer(String title, String author, String seriesNum) {
+        String[] userAnswer = new String[3];
+
+        userAnswer[0] = title;
+        userAnswer[1] = author;
+        userAnswer[2] = seriesNum;
+
+        return userAnswer;
+    }
+
+    private JComboBox createComboBox(JPanel panel, GridBagConstraints c) {
+        JLabel label = createLabel("Please select a list:  ", 0, 4, c);
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 0;
-        c.gridy = 4;
         panel.add(label, c);
 
         DefaultComboBoxModel model = new DefaultComboBoxModel();
@@ -301,26 +295,67 @@ public class BookAppGUI extends JFrame {
         c.gridy = 4;
         panel.add(comboBox, c);
 
-        String choice = "" + comboBox.getSelectedItem();
-
-        return choice;
+        return comboBox;
     }
 
-    private void processInputs(String[] bookInfo, String genre, String list) {
+    private String processInputs(String[] bookInfo) {
+        String title = bookInfo[0];
+        String author = bookInfo[1];
+        String message = bookApp.removeBook(title, author);
+        return message;
+    }
+
+    private String processInputs(String[] bookInfo, String genre, String list) {
         String title = bookInfo[0];
         String author = bookInfo[1];
         int seriesNum = Integer.parseInt(bookInfo[2]);
-        bookApp.addToList(title, author, seriesNum, genre, list);
+        String message = bookApp.addToList(title, author, seriesNum, genre, list);
+        return message;
     }
 
     private JButton removeBook() {
         removeBookButton.setText("Remove book from list");
         removeBookButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(removeBookButton, "Remove book");
+                JOptionPane.showMessageDialog(removeBookButton, removeBookFromList());
             }
         });
         return removeBookButton;
+    }
+
+    private String removeBookFromList() {
+        String message = "";
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        createRemoveLabels(panel, c);
+        JTextField titleField = createTextField(20, 1, 0, c);
+        panel.add(titleField, c);
+        JTextField authorField = createTextField(20, 1, 1, c);
+        panel.add(authorField, c);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Remove Book from Library",
+                JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        switch (result) {
+            case JOptionPane.OK_OPTION:
+                String[] userAnswers = getUserAnswer(titleField.getText(), authorField.getText());
+                message = processInputs(userAnswers);
+                break;
+        }
+        return message;
+    }
+
+    private void createRemoveLabels(JPanel panel, GridBagConstraints c) {
+        JLabel label;
+
+        label = createLabel("Title: ", 0, 0, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(label, c);
+
+        label = createLabel("Author: ", 0, 1, c);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        panel.add(label, c);
     }
 
     private JButton saveLibrary() {

@@ -149,7 +149,7 @@ public class BookApp {
 
     // MODIFIES: this
     // EFFECTS: adds a book to a specified list
-    public void addToList(String title, String author, int seriesNum, String selectedGenre, String listInput) {
+    public String addToList(String title, String author, int seriesNum, String selectedGenre, String listInput) {
 //        String title = readTitle();
 //        String author = readAuthor();
 //        int seriesNum = readSeriesNum();
@@ -160,18 +160,16 @@ public class BookApp {
         Lists list = readList(listInput);
         Book book = new Book(title, author, seriesNum, genre, list);
         library.addBook(book);
-        System.out.println(title + " has been added to " + list.toString());
+        return title + " has been added to " + list.toString();
     }
 
     // MODIFIES: this
     // EFFECTS: removes a book to a specified list
-    public void removeBook() {
-        String title = readTitle();
-        String author = readAuthor();
+    public String removeBook(String title, String author) {
+//        String title = readTitle();
+//        String author = readAuthor();
 
         ArrayList<Book> newList = new ArrayList<>();
-        System.out.println("LOOP\n");
-        int idx = 0;
         for (Book b : library.getBooks()) {
             if (!b.getTitle().equals(title)) {
                 if (!b.getAuthor().equals(author)) {
@@ -180,6 +178,7 @@ public class BookApp {
             }
         }
         library.removeBook(newList);
+        return title + " has been removed from library";
     }
 
     //------ READ USER INPUT FUNCTIONS ------
