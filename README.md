@@ -4,14 +4,11 @@
 
 What the application will do:
 - It will enable the user to add books to several lists (e.g. books to read and book already read)
-- The user can get a book recommendation from their To-Read list:
-  1. by selecting a **genre**
-  2. the system selects a **random** book
-- The user can record the date when they finished reading a book
+- The user can remove a book from the library
+- The user can see all the books in the library as well books in a list
 
 Who will use it?
-- People who want to have a personal database which has records of books they read, books they want to read, and a system that can give recommendations from the books they want to read (instead of random books from the internet).
-
+- People who want to have a personal database which has records of books they read and books they want to read
 Why is this project of interest to me?
 - The main reason is that I like reading.
 - A couple of years ago I started having the habit of tracking books that I have read, and it’s quite satisfying to see the number of books I have read over the years and how my tastes have changed or stayed the same. 
