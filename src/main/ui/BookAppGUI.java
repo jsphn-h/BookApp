@@ -33,10 +33,10 @@ public class BookAppGUI extends JFrame {
         addButton(displayListsButton(), pane);
         addButton(displayAllBooksButton(), pane);
         addButton(booksInListButton(), pane);
-        addButton(addBook(), pane);
-        addButton(removeBook(), pane);
-        addButton(saveLibrary(), pane);
-        addButton(loadLibrary(), pane);
+        addButton(addBookButton(), pane);
+        addButton(removeBookButton(), pane);
+        addButton(saveLibraryButton(), pane);
+        addButton(loadLibraryButton(), pane);
     }
 
     // EFFECTS: creates a button and adds it to the container
@@ -44,6 +44,9 @@ public class BookAppGUI extends JFrame {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(button);
     }
+
+
+    // ***** MENU BUTTONS ***** //
 
     // EFFECTS: creates a button to display the lists in the library
     private JButton displayListsButton() {
@@ -66,6 +69,64 @@ public class BookAppGUI extends JFrame {
         });
         return displayAllButton;
     }
+
+    // EFFECTS: creates a button to display books in a user selected list
+    private JButton booksInListButton() {
+        displayBooksButton.setText("Display books in list");
+        displayBooksButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                selectListPopup();
+            }
+        });
+        return displayBooksButton;
+    }
+    
+    // EFFECTS: creates a button to add a book to a list
+    private JButton addBookButton() {
+        addBookButton.setText("Add book to list");
+        addBookButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(addBookButton, addBookWindow());
+            }
+        });
+        return addBookButton;
+    }
+    
+    // EFFECTS: creates a button to remove a book from the library
+    private JButton removeBookButton() {
+        removeBookButton.setText("Remove book from list");
+        removeBookButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(removeBookButton, removeBookFromList());
+            }
+        });
+        return removeBookButton;
+    }
+
+    // EFFECTS: creates a button to save the library
+    private JButton saveLibraryButton() {
+        saveLibButton.setText("Save library");
+        saveLibButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(saveLibButton, bookApp.saveLibrary());
+            }
+        });
+        return saveLibButton;
+    }
+
+    // EFFECTS: creates a button to load the library
+    private JButton loadLibraryButton() {
+        loadLibButton.setText("Load library");
+        loadLibButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(loadLibButton, bookApp.loadLibrary());
+            }
+        });
+        return loadLibButton;
+    }
+
+
+    // *** SPECIFIC FUNCTIONS*** //
 
     // EFFECTS: creates a window to display all books in the library
     private void allBooksWindow() {
@@ -93,30 +154,15 @@ public class BookAppGUI extends JFrame {
 //        allBooks.add(scrollPane);
     }
 
-    // EFFECTS: creates a button to display books in a user selected list
-    private JButton booksInListButton() {
-        displayBooksButton.setText("Display books in list");
-        displayBooksButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                selectList();
-            }
-        });
-        return displayBooksButton;
-    }
-
     // EFFECTS: creates a popup window for the user to select a list
-    private void selectList() {
+    private void selectListPopup() {
         JPanel panel = new JPanel();
         panel.setVisible(true);
         panel.setBorder(new EmptyBorder(10, 10, 10, 10));
         panel.setLayout(new GridBagLayout());
 
-        panel.add(new JLabel("Please select a list:  "));
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        model.addElement("Wishlist");
-        model.addElement("Read");
-        model.addElement("Reading");
-        JComboBox comboBox = new JComboBox(model);
+        panel.add(new JLabel("Please select a list: "));
+        JComboBox comboBox = selectList();
         panel.add(comboBox);
 
         int result = JOptionPane.showConfirmDialog(null, panel, "List",
@@ -127,29 +173,29 @@ public class BookAppGUI extends JFrame {
                 choice += comboBox.getSelectedItem();
                 break;
         }
-        displayBookLists(choice);
+        processListSelection(choice);
     }
 
     // EFFECTS: processes the user selection and displays the corresponding list
-    private void displayBookLists(String choice) {
+    private void processListSelection(String choice) {
         switch (choice) {
             case "Wishlist":
-                displayWishlist();
+                displayBooksInList("Wishlist");
                 break;
             case "Read":
-                displayRead();
+                displayBooksInList("Read");
                 break;
             case "Reading":
-                displayReading();
+                displayBooksInList("Reading");
                 break;
         }
     }
 
-    // EFFECTS: displays the books in "Wishlist"
-    private void displayWishlist() {
-        JFrame frame = createWindow("Wishlist");
+    // EFFECTS: displays the books in the list
+    private void displayBooksInList(String text) {
+        JFrame frame = createWindow(text);
 
-        ArrayList books = bookApp.displayBooksInList("Wishlist");
+        ArrayList books = bookApp.displayBooksInList(text);
         int rows = books.size() / 2;
         int cols = 2;
 
@@ -165,63 +211,13 @@ public class BookAppGUI extends JFrame {
         frame.add(panel);
     }
 
-    // EFFECTS: displays the books in "Read"
-    private void displayRead() {
-        JFrame frame = createWindow("Read");
-        ArrayList books = bookApp.displayBooksInList("Read");
-        int rows = books.size() / 2;
-        int cols = 2;
-
-        String bookInfo;
-        JPanel panel = new JPanel(new GridLayout(rows, cols, 5, 5));
-        for (int i = 0; i < books.size(); i++) {
-            bookInfo = books.get(i).toString();
-            JTextArea textBox = new JTextArea(bookInfo);
-            textBox.setLineWrap(true);
-            panel.add(textBox);
-            panel.setVisible(true);
-        }
-        frame.add(panel);
-    }
-
-    // EFFECTS: displays the books in "Reading"
-    private void displayReading() {
-        JFrame frame = createWindow("Reading");
-        ArrayList books = bookApp.displayBooksInList("Reading");
-        int rows = books.size() / 2;
-        int cols = 2;
-
-        String bookInfo;
-        JPanel panel = new JPanel(new GridLayout(rows, cols, 5, 5));
-        for (int i = 0; i < books.size(); i++) {
-            bookInfo = books.get(i).toString();
-            JTextArea textBox = new JTextArea(bookInfo);
-            textBox.setLineWrap(true);
-            panel.add(textBox);
-            panel.setVisible(true);
-        }
-        frame.add(panel);
-    }
-
-    // EFFECTS: creates a button to add a book to a list
-    private JButton addBook() {
-        addBookButton.setText("Add book to list");
-        addBookButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(addBookButton, addBookToList());
-            }
-        });
-        return addBookButton;
-    }
-
-    // EFFECTS: creates a window for the user to enter the book information and select a list to add it to
-    private String addBookToList() {
+    // EFFECTS: creates a popup window for the user to enter the book information and select a list to add it to
+    private String addBookWindow() {
         String message = "";
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
-        createLabels(panel, c);
+        createBookInfoLabels(panel, c);
         JTextField titleField = createTextField(20, 1, 0, c);
         panel.add(titleField, c);
         JTextField authorField = createTextField(20, 1, 1, c);
@@ -230,21 +226,22 @@ public class BookAppGUI extends JFrame {
         panel.add(seriesNumField, c);
 
         String genre = selectGenre(panel, c);
-        JComboBox comboBox = createComboBox(panel, c);
-
+        JComboBox comboBox = createSelectBox(panel, c, 0, 4, 1, 4);
         int result = JOptionPane.showConfirmDialog(null, panel, "Add Book to List",
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         switch (result) {
             case JOptionPane.OK_OPTION:
-                String[] userAnswers = getUserAnswer(titleField.getText(), authorField.getText(), seriesNumField.getText()); //HOW TO GET USER INPUT FROM FIELDS?
-                message = processInputs(userAnswers, genre, comboBox.getSelectedItem().toString());
+                message = addBook(titleField.getText(), authorField.getText(), seriesNumField.getText(), genre,
+                        comboBox.getSelectedItem().toString());
                 break;
+            default:
+                message = "No changes made.";
         }
         return message;
     }
 
     // EFFECTS: creates labels for entering the book information page
-    private void createLabels(JPanel panel, GridBagConstraints c) {
+    private void createBookInfoLabels(JPanel panel, GridBagConstraints c) {
         JLabel label;
 
         label = createLabel("Title: ", 0, 0, c);
@@ -260,88 +257,32 @@ public class BookAppGUI extends JFrame {
         panel.add(label, c);
     }
 
-    // EFFECTS: creates a label with the specified text, gridx and gridy
-    private JLabel createLabel(String text, int x, int y, GridBagConstraints c) {
-        JLabel label = new JLabel(text);
-        c.gridx = x;
-        c.gridy = y;
-        return label;
-    }
-
-    // EFFECTS: creates a label with the specified width (col), text, gridx and gridy
-    private JTextField createTextField(int col, int x, int y, GridBagConstraints c) {
-        JTextField textField = new JTextField(20);
-        c.gridx = x;
-        c.gridy = y;
-        return textField;
-    }
-
-    // EFFECTS: puts the user answers into a String array and returns it
-    private String[] getUserAnswer(String title, String author) {
-        String[] userAnswer = new String[2];
-
-        userAnswer[0] = title;
-        userAnswer[1] = author;
-
-        return userAnswer;
-    }
-
-    // EFFECTS: puts the user answers into a String array and returns the array
-    private String[] getUserAnswer(String title, String author, String seriesNum) {
-        String[] userAnswer = new String[3];
-
-        userAnswer[0] = title;
-        userAnswer[1] = author;
-        userAnswer[2] = seriesNum;
-
-        return userAnswer;
-    }
-
     // EFFECTS: creates a ComboBox on the page so the user can select a list
-    private JComboBox createComboBox(JPanel panel, GridBagConstraints c) {
-        JLabel label = createLabel("Please select a list:  ", 0, 4, c);
+    private JComboBox createSelectBox(JPanel panel, GridBagConstraints c,  int x, int y, int x2, int y2) {
+        JLabel label = createLabel("Please select a list: ", x, y, c);
         c.fill = GridBagConstraints.HORIZONTAL;
         panel.add(label, c);
 
-        DefaultComboBoxModel model = new DefaultComboBoxModel();
-        model.addElement("Wishlist");
-        model.addElement("Read");
-        model.addElement("Reading");
-        JComboBox comboBox = new JComboBox(model);
+        JComboBox comboBox = selectList();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.gridx = 1;
-        c.gridy = 4;
+        c.gridx = x2;
+        c.gridy = y2;
         panel.add(comboBox, c);
 
         return comboBox;
     }
 
-    // EFFECTS: processes the user input and removes the book from the library
-    private String processInputs(String[] bookInfo) {
-        String title = bookInfo[0];
-        String author = bookInfo[1];
-        String message = bookApp.removeBook(title, author);
-        return message;
-    }
-
     // EFFECTS: processes the user input and adds book to library
-    private String processInputs(String[] bookInfo, String genre, String list) {
-        String title = bookInfo[0];
-        String author = bookInfo[1];
-        int seriesNum = Integer.parseInt(bookInfo[2]);
+    private String addBook(String title, String author, String num, String genre, String list) {
+        int seriesNum = Integer.parseInt(num);
         String message = bookApp.addToList(title, author, seriesNum, genre, list);
         return message;
     }
 
-    // EFFECTS: creates a button to remove a book from the library
-    private JButton removeBook() {
-        removeBookButton.setText("Remove book from list");
-        removeBookButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(removeBookButton, removeBookFromList());
-            }
-        });
-        return removeBookButton;
+    // EFFECTS: processes the user input and removes the book from the library
+    private String removeBook(String title, String author) {
+        String message = bookApp.removeBook(title, author);
+        return message;
     }
 
     // EFFECTS: creates popup window for user to enter book information
@@ -361,8 +302,7 @@ public class BookAppGUI extends JFrame {
                 JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         switch (result) {
             case JOptionPane.OK_OPTION:
-                String[] userAnswers = getUserAnswer(titleField.getText(), authorField.getText());
-                message = processInputs(userAnswers);
+                message = removeBook(titleField.getText(), authorField.getText());
                 break;
         }
         return message;
@@ -381,26 +321,31 @@ public class BookAppGUI extends JFrame {
         panel.add(label, c);
     }
 
-    // EFFECTS: creates a button to save the library
-    private JButton saveLibrary() {
-        saveLibButton.setText("Save library");
-        saveLibButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(saveLibButton, bookApp.saveLibrary());
-            }
-        });
-        return saveLibButton;
+    // ***** MULTI-USE FUNCTIONS ******///
+    // EFFECTS: creates a label with the specified text, gridx and gridy
+    private JLabel createLabel(String text, int x, int y, GridBagConstraints c) {
+        JLabel label = new JLabel(text);
+        c.gridx = x;
+        c.gridy = y;
+        return label;
     }
 
-    // EFFECTS: creates a button to load the library
-    private JButton loadLibrary() {
-        loadLibButton.setText("Load library");
-        loadLibButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(loadLibButton, bookApp.loadLibrary());
-            }
-        });
-        return loadLibButton;
+    // EFFECTS: creates a label with the specified width (col), text, gridx and gridy
+    private JTextField createTextField(int col, int x, int y, GridBagConstraints c) {
+        JTextField textField = new JTextField(20);
+        c.gridx = x;
+        c.gridy = y;
+        return textField;
+    }
+
+    // EFFECTS: creates a selection box for the user to select a list
+    private JComboBox selectList() {
+        DefaultComboBoxModel model = new DefaultComboBoxModel();
+        model.addElement("Wishlist");
+        model.addElement("Read");
+        model.addElement("Reading");
+        JComboBox comboBox = new JComboBox(model);
+        return  comboBox;
     }
 
     // EFFECTS: creates a selection box for the user to select a genre
@@ -430,6 +375,17 @@ public class BookAppGUI extends JFrame {
         String choice = "" + comboBox.getSelectedItem();
 
         return choice;
+    }
+
+
+    // EFFECTS: puts the user answers into a String array and returns it
+    private String[] getUserAnswer(String title, String author) {
+        String[] userAnswer = new String[2];
+
+        userAnswer[0] = title;
+        userAnswer[1] = author;
+
+        return userAnswer;
     }
 
     // EFFECTS: creates a window
