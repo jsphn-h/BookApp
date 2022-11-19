@@ -4,6 +4,7 @@ package ui;
 import model.Book;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import javax.swing.*;
 
 public class Main {
@@ -14,6 +15,8 @@ public class Main {
                     BookAppGUI bookAppGUI = new BookAppGUI();
                     bookAppGUI.createAndShowGUI();
                 } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }

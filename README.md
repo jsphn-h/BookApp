@@ -31,3 +31,11 @@ Why is this project of interest to me?
 - As a user, I want to be able to get book recommendations from my To-Read list
 - As a user, I would like to save my books and my lists to a database before exiting the application (or choose not to)
 - As a user, I would like to load the saved information about my books and lists upon opening the application
+
+## Instructions for Grader
+
+- You can locate my visual component by...
+- To load the state of my application from the "Library" file, click on the "Load Library" button
+- To save the state of my application to the "Library" file, click on the "Save Library" button
+- You can generate the first required event related to adding Xs to a Y by clicking on "Add Book to List", entering all the fields and clicking "Ok"
+- You can generate the second required event related to displaying a subset of the Xs by clicking on "Display Books in List" and selecting a list

@@ -1,11 +1,15 @@
 package ui;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 // creates a GUI for BookApp so users only have to interact with it (and not the console)
@@ -19,7 +23,7 @@ public class BookAppGUI extends JFrame {
     private JButton removeBookButton = new JButton();
     private JButton saveLibButton = new JButton();
     private JButton loadLibButton = new JButton();
-    private JButton displayWishlist = new JButton();
+    private JLabel bookImage = new JLabel();
 
     // EFFECTS: creates bookApp so we can use its functions
     public BookAppGUI() throws FileNotFoundException {
@@ -27,8 +31,14 @@ public class BookAppGUI extends JFrame {
     }
 
     // EFFECTS: adding menu buttons to startup window
-    public void addComponentsToPane(Container pane) {
+    public void addComponentsToPane(Container pane) throws IOException {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
+
+        BufferedImage image = ImageIO.read(getClass().getResource("/images/books.jpeg"));
+        Image resultingImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JLabel picLabel = new JLabel(new ImageIcon(resultingImage));
+        picLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        pane.add(picLabel);
 
         addButton(displayListsButton(), pane);
         addButton(displayAllBooksButton(), pane);
@@ -37,12 +47,18 @@ public class BookAppGUI extends JFrame {
         addButton(removeBookButton(), pane);
         addButton(saveLibraryButton(), pane);
         addButton(loadLibraryButton(), pane);
+
     }
 
     // EFFECTS: creates a button and adds it to the container
     private void addButton(JButton button, Container container) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(button);
+    }
+
+    // EFFECTS: adding book image to the container
+    private void addImage(JLabel label, Container container) throws IOException {
+
     }
 
 
@@ -399,7 +415,7 @@ public class BookAppGUI extends JFrame {
     }
 
     // EFFECTS: sets up and creates GUI
-    public void createAndShowGUI() {
+    public void createAndShowGUI() throws IOException {
         // Create window
         JFrame frame = new JFrame("BookApp");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
