@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,37 +29,59 @@ public class BookAppGUI extends JFrame {
         bookApp = new BookApp();
     }
 
-    // EFFECTS: adding menu buttons to startup window
-    public void addComponentsToPane(Container pane) throws IOException {
-        pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-
-        BufferedImage image = ImageIO.read(getClass().getResource("/images/books.jpeg"));
-        Image resultingImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        JLabel picLabel = new JLabel(new ImageIcon(resultingImage));
-        picLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        pane.add(picLabel);
-
-        addButton(displayListsButton(), pane);
-        addButton(displayAllBooksButton(), pane);
-        addButton(booksInListButton(), pane);
-        addButton(addBookButton(), pane);
-        addButton(removeBookButton(), pane);
-        addButton(saveLibraryButton(), pane);
-        addButton(loadLibraryButton(), pane);
-
+    // EFFECTS: adding image and menu buttons to startup window
+    public void menuScreen(Container pane) throws IOException {
+        pane.setLayout(new FlowLayout());
+        imagePanel(pane);
+        menuPanel(pane);
     }
 
     // EFFECTS: creates a button and adds it to the container
-    private void addButton(JButton button, Container container) {
-        button.setAlignmentX(Component.CENTER_ALIGNMENT);
-        container.add(button);
+    private void addButton(JButton button, Container pane, GridBagConstraints c, int width, int height, int x, int y) {
+        button.setSize(width, height);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.gridx = x;
+        c.gridy = y;
+        c.ipady = 20;
+        c.gridheight = 1;
+        pane.add(button, c);
     }
 
     // EFFECTS: adding book image to the container
-    private void addImage(JLabel label, Container container) throws IOException {
+    private void imagePanel(Container container) throws IOException {
+        JPanel imagePanel = new JPanel();
 
+        // Getting and formatting image
+        BufferedImage image = ImageIO.read(getClass().getResource("/images/books.jpeg"));
+        Image resultingImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        JLabel picLabel = new JLabel(new ImageIcon(resultingImage));
+
+        picLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        container.add(picLabel);
     }
 
+    private void menuPanel(Container container) {
+        JPanel menuPanel = new JPanel();
+        menuPanel.setLayout(new GridBagLayout());
+        GridBagConstraints c = new GridBagConstraints();
+
+        addButton(displayListsButton(), menuPanel, c, 200, 10, 0, 2);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        addButton(displayAllBooksButton(), menuPanel, c, 200, 20, 0, 3);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        addButton(booksInListButton(), menuPanel, c, 200, 20, 0, 4);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        addButton(addBookButton(), menuPanel, c, 200, 20, 0, 5);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        addButton(removeBookButton(), menuPanel, c, 200, 20, 0, 6);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        addButton(saveLibraryButton(), menuPanel, c, 200, 20, 0, 7);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+        addButton(loadLibraryButton(), menuPanel, c, 200, 20, 0, 8);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+
+        container.add(menuPanel);
+    }
 
     // ***** MENU BUTTONS ***** //
 
@@ -422,7 +443,7 @@ public class BookAppGUI extends JFrame {
 
         // Set up content pane
         frame.setPreferredSize(new Dimension(400, 400));
-        addComponentsToPane(frame.getContentPane());
+        menuScreen(frame.getContentPane());
 
         // Display window
         frame.pack();
