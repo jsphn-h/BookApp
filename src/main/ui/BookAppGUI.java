@@ -30,21 +30,23 @@ public class BookAppGUI extends JFrame {
     public void addComponentsToPane(Container pane) {
         pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 
-        addButton(displayLists(), pane);
-        addButton(displayAllBooks(), pane);
-        addButton(booksInList(), pane);
+        addButton(displayListsButton(), pane);
+        addButton(displayAllBooksButton(), pane);
+        addButton(booksInListButton(), pane);
         addButton(addBook(), pane);
         addButton(removeBook(), pane);
         addButton(saveLibrary(), pane);
         addButton(loadLibrary(), pane);
     }
 
+    // EFFECTS: creates a button and adds it to the container
     private void addButton(JButton button, Container container) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         container.add(button);
     }
 
-    private JButton displayLists() {
+    // EFFECTS: creates a button to display the lists in the library
+    private JButton displayListsButton() {
         displayListsButton.setText("Display lists");
         displayListsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -54,7 +56,8 @@ public class BookAppGUI extends JFrame {
         return displayListsButton;
     }
 
-    private JButton displayAllBooks() {
+    // EFFECTS: creates a button to display all the books in the library
+    private JButton displayAllBooksButton() {
         displayAllButton.setText("Display all books");
         displayAllButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -64,6 +67,7 @@ public class BookAppGUI extends JFrame {
         return displayAllButton;
     }
 
+    // EFFECTS: creates a window to display all books in the library
     private void allBooksWindow() {
         JFrame allBooks = createWindow("All Books");
         //Scroll pane is in JFrame
@@ -89,7 +93,8 @@ public class BookAppGUI extends JFrame {
 //        allBooks.add(scrollPane);
     }
 
-    private JButton booksInList() {
+    // EFFECTS: creates a button to display books in a user selected list
+    private JButton booksInListButton() {
         displayBooksButton.setText("Display books in list");
         displayBooksButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -99,6 +104,7 @@ public class BookAppGUI extends JFrame {
         return displayBooksButton;
     }
 
+    // EFFECTS: creates a popup window for the user to select a list
     private void selectList() {
         JPanel panel = new JPanel();
         panel.setVisible(true);
@@ -124,6 +130,7 @@ public class BookAppGUI extends JFrame {
         displayBookLists(choice);
     }
 
+    // EFFECTS: processes the user selection and displays the corresponding list
     private void displayBookLists(String choice) {
         switch (choice) {
             case "Wishlist":
@@ -138,6 +145,7 @@ public class BookAppGUI extends JFrame {
         }
     }
 
+    // EFFECTS: displays the books in "Wishlist"
     private void displayWishlist() {
         JFrame frame = createWindow("Wishlist");
 
@@ -157,6 +165,7 @@ public class BookAppGUI extends JFrame {
         frame.add(panel);
     }
 
+    // EFFECTS: displays the books in "Read"
     private void displayRead() {
         JFrame frame = createWindow("Read");
         ArrayList books = bookApp.displayBooksInList("Read");
@@ -175,6 +184,7 @@ public class BookAppGUI extends JFrame {
         frame.add(panel);
     }
 
+    // EFFECTS: displays the books in "Reading"
     private void displayReading() {
         JFrame frame = createWindow("Reading");
         ArrayList books = bookApp.displayBooksInList("Reading");
@@ -193,6 +203,7 @@ public class BookAppGUI extends JFrame {
         frame.add(panel);
     }
 
+    // EFFECTS: creates a button to add a book to a list
     private JButton addBook() {
         addBookButton.setText("Add book to list");
         addBookButton.addActionListener(new ActionListener() {
@@ -203,6 +214,7 @@ public class BookAppGUI extends JFrame {
         return addBookButton;
     }
 
+    // EFFECTS: creates a window for the user to enter the book information and select a list to add it to
     private String addBookToList() {
         String message = "";
         JPanel panel = new JPanel();
@@ -231,6 +243,7 @@ public class BookAppGUI extends JFrame {
         return message;
     }
 
+    // EFFECTS: creates labels for entering the book information page
     private void createLabels(JPanel panel, GridBagConstraints c) {
         JLabel label;
 
@@ -247,6 +260,7 @@ public class BookAppGUI extends JFrame {
         panel.add(label, c);
     }
 
+    // EFFECTS: creates a label with the specified text, gridx and gridy
     private JLabel createLabel(String text, int x, int y, GridBagConstraints c) {
         JLabel label = new JLabel(text);
         c.gridx = x;
@@ -254,6 +268,7 @@ public class BookAppGUI extends JFrame {
         return label;
     }
 
+    // EFFECTS: creates a label with the specified width (col), text, gridx and gridy
     private JTextField createTextField(int col, int x, int y, GridBagConstraints c) {
         JTextField textField = new JTextField(20);
         c.gridx = x;
@@ -261,6 +276,7 @@ public class BookAppGUI extends JFrame {
         return textField;
     }
 
+    // EFFECTS: puts the user answers into a String array and returns it
     private String[] getUserAnswer(String title, String author) {
         String[] userAnswer = new String[2];
 
@@ -270,6 +286,7 @@ public class BookAppGUI extends JFrame {
         return userAnswer;
     }
 
+    // EFFECTS: puts the user answers into a String array and returns the array
     private String[] getUserAnswer(String title, String author, String seriesNum) {
         String[] userAnswer = new String[3];
 
@@ -280,6 +297,7 @@ public class BookAppGUI extends JFrame {
         return userAnswer;
     }
 
+    // EFFECTS: creates a ComboBox on the page so the user can select a list
     private JComboBox createComboBox(JPanel panel, GridBagConstraints c) {
         JLabel label = createLabel("Please select a list:  ", 0, 4, c);
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -298,6 +316,7 @@ public class BookAppGUI extends JFrame {
         return comboBox;
     }
 
+    // EFFECTS: processes the user input and removes the book from the library
     private String processInputs(String[] bookInfo) {
         String title = bookInfo[0];
         String author = bookInfo[1];
@@ -305,6 +324,7 @@ public class BookAppGUI extends JFrame {
         return message;
     }
 
+    // EFFECTS: processes the user input and adds book to library
     private String processInputs(String[] bookInfo, String genre, String list) {
         String title = bookInfo[0];
         String author = bookInfo[1];
@@ -313,6 +333,7 @@ public class BookAppGUI extends JFrame {
         return message;
     }
 
+    // EFFECTS: creates a button to remove a book from the library
     private JButton removeBook() {
         removeBookButton.setText("Remove book from list");
         removeBookButton.addActionListener(new ActionListener() {
@@ -323,6 +344,7 @@ public class BookAppGUI extends JFrame {
         return removeBookButton;
     }
 
+    // EFFECTS: creates popup window for user to enter book information
     private String removeBookFromList() {
         String message = "";
         JPanel panel = new JPanel();
@@ -346,6 +368,7 @@ public class BookAppGUI extends JFrame {
         return message;
     }
 
+    // EFFECTS: creates the labels on the remove page
     private void createRemoveLabels(JPanel panel, GridBagConstraints c) {
         JLabel label;
 
@@ -358,6 +381,7 @@ public class BookAppGUI extends JFrame {
         panel.add(label, c);
     }
 
+    // EFFECTS: creates a button to save the library
     private JButton saveLibrary() {
         saveLibButton.setText("Save library");
         saveLibButton.addActionListener(new ActionListener() {
@@ -368,6 +392,7 @@ public class BookAppGUI extends JFrame {
         return saveLibButton;
     }
 
+    // EFFECTS: creates a button to load the library
     private JButton loadLibrary() {
         loadLibButton.setText("Load library");
         loadLibButton.addActionListener(new ActionListener() {
@@ -378,6 +403,7 @@ public class BookAppGUI extends JFrame {
         return loadLibButton;
     }
 
+    // EFFECTS: creates a selection box for the user to select a genre
     private String selectGenre(JPanel panel, GridBagConstraints c) {
         JLabel label = new JLabel("Please select a genre:  ");
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -406,6 +432,7 @@ public class BookAppGUI extends JFrame {
         return choice;
     }
 
+    // EFFECTS: creates a window
     private JFrame createWindow(String title) {
         JFrame frame = new JFrame(title);
         frame.setPreferredSize(new Dimension(400, 400));
@@ -415,6 +442,7 @@ public class BookAppGUI extends JFrame {
         return frame;
     }
 
+    // EFFECTS: sets up and creates GUI
     public void createAndShowGUI() {
         // Create window
         JFrame frame = new JFrame("BookApp");
