@@ -34,7 +34,7 @@ Why is this project of interest to me?
 
 ## Instructions for Grader
 
-- You can locate my visual component by...
+- You can locate my visual component by starting the application
 - To load the state of my application from the "Library" file, click on the "Load Library" button
 - To save the state of my application to the "Library" file, click on the "Save Library" button
 - You can generate the first required event related to adding Xs to a Y by clicking on "Add Book to List", entering all the fields and clicking "Ok"
