@@ -36,12 +36,12 @@ public class Library implements Writeable {
     }
 
     // EFFECTS: removes a book from a list
-    public void removeBook(String title, String author) {
-        List<Book> newList = new ArrayList<>();
-        for (Book b : getBooks()) {
-            System.out.println(b);
-        }
-    }
+//    public void removeBook(String title, String author) {
+//        List<Book> newList = new ArrayList<>();
+//        for (Book b : getBooks()) {
+//            System.out.println(b);
+//        }
+//    }
 
     // EFFECTS: returns an unmodifiable list of book lists
     public List<Book> getBooks() {

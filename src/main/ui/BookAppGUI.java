@@ -341,6 +341,9 @@ public class BookAppGUI extends JFrame {
             case JOptionPane.OK_OPTION:
                 message = removeBook(titleField.getText(), authorField.getText());
                 break;
+            case JOptionPane.CANCEL_OPTION:
+                message = "No changes made.";
+                break;
         }
         return message;
     }

@@ -251,7 +251,7 @@ public class BookApp {
         } else if (genre.equals("Nonfiction")) {
             selection = 9;
         }
-        System.out.println(Genre.values()[selection - 1]);
+//        System.out.println(Genre.values()[selection - 1]);
         return Genre.values()[selection - 1];
     }
 

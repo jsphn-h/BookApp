@@ -24,10 +24,11 @@ Why is this project of interest to me?
 - As a user, I want to be able to remove books from my lists
 - As a user, I want to be able to view my lists
 - As a user, I want to be able to select a list and view the books in the list 
+- As a user, I would like to load the saved information about my books and lists upon opening the application
+
 - As a user, I want to be able to select a genre and view the books within that genre 
 - As a user, I want to be able to get book recommendations from my To-Read list
 - As a user, I would like to save my books and my lists to a database before exiting the application (or choose not to)
-- As a user, I would like to load the saved information about my books and lists upon opening the application
 
 ## Instructions for Grader
 
