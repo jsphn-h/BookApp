@@ -75,36 +75,36 @@ public class BookApp {
 //        }
 //    }
 
-    private void processDisplayInput(String userInput) {
-        switch (userInput) {
-
-            default:
-                System.out.println("Invalid input");
-                break;
-        }
-    }
+//    private void processDisplayInput(String userInput) {
+//        switch (userInput) {
+//
+//            default:
+//                System.out.println("Invalid input");
+//                break;
+//        }
+//    }
 
     // MODIFIES: this
     // EFFECTS: initializes the app
-    private void init() {
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
-    }
+//    private void init() {
+//        input = new Scanner(System.in);
+//        input.useDelimiter("\n");
+//    }
 
     // EFFECTS: displays menu with action choices to user
-    public void displayMenu() {
-        System.out.println();
-        System.out.println("Please select an option below:");
-        System.out.println("\t1) Display lists");
-        System.out.println("\t2) Display all books");
-        System.out.println("\t3) Display books from list");
-        System.out.println("\t4) Add book to list");
-        System.out.println("\t5) Remove book from list");
-        System.out.println("\t6) Save library");
-        System.out.println("\t7) Load library");
-        System.out.println("\t8) Exit");
-        System.out.println("----- Please load the library to see your books -----");
-    }
+//    public void displayMenu() {
+//        System.out.println();
+//        System.out.println("Please select an option below:");
+//        System.out.println("\t1) Display lists");
+//        System.out.println("\t2) Display all books");
+//        System.out.println("\t3) Display books from list");
+//        System.out.println("\t4) Add book to list");
+//        System.out.println("\t5) Remove book from list");
+//        System.out.println("\t6) Save library");
+//        System.out.println("\t7) Load library");
+//        System.out.println("\t8) Exit");
+//        System.out.println("----- Please load the library to see your books -----");
+//    }
 
 
     // ----- MENU FUNCTIONS ------
@@ -183,24 +183,24 @@ public class BookApp {
 
     //------ READ USER INPUT FUNCTIONS ------
     //EFFECTS: prompts user to enter the title of the book and returns it
-    private String readTitle() {
-        System.out.println("Enter the title: ");
-        String title = input.next();
-        while (!validStringInput(title)) {
-            title = input.next();
-        }
-        return title;
-    }
+//    private String readTitle() {
+//        System.out.println("Enter the title: ");
+//        String title = input.next();
+//        while (!validStringInput(title)) {
+//            title = input.next();
+//        }
+//        return title;
+//    }
 
     //EFFECTS: prompts user to enter the author and returns it
-    private String readAuthor() {
-        System.out.println("Enter the author: ");
-        String author = input.next();
-        while (!validStringInput(author)) {
-            author = input.next();
-        }
-        return author;
-    }
+//    private String readAuthor() {
+//        System.out.println("Enter the author: ");
+//        String author = input.next();
+//        while (!validStringInput(author)) {
+//            author = input.next();
+//        }
+//        return author;
+//    }
 
     // EFFECTS: prompts user to select a list to add book to
     private Lists readList(String list) {
@@ -256,24 +256,24 @@ public class BookApp {
     }
 
     // EFFECTS: prompts user to enter which book it is in the series and returns it
-    private int readSeriesNum() {
-        System.out.println("Book x in series (0 if it's not part of a series): ");
-        int seriesNum = input.nextInt();
-        while (seriesNum < 0) {
-            seriesNum = input.nextInt();
-        }
-        return seriesNum;
-    }
+//    private int readSeriesNum() {
+//        System.out.println("Book x in series (0 if it's not part of a series): ");
+//        int seriesNum = input.nextInt();
+//        while (seriesNum < 0) {
+//            seriesNum = input.nextInt();
+//        }
+//        return seriesNum;
+//    }
 
     // EFFECTS: checks whether the user input is valid
-    private boolean validStringInput(String input) {
-        if (input.isEmpty() || input.equals(" ")) {
-            System.out.println("Input cannot be empty. Try again: ");
-            return false;
-        } else {
-            return true;
-        }
-    }
+//    private boolean validStringInput(String input) {
+//        if (input.isEmpty() || input.equals(" ")) {
+//            System.out.println("Input cannot be empty. Try again: ");
+//            return false;
+//        } else {
+//            return true;
+//        }
+//    }
 
     // ----- LIBRARY FUNCTIONS -----
     // EFFECTS: saves the lists to file

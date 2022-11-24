@@ -38,6 +38,7 @@ public class BookAppTest {
         assertFalse(bookApp.displayBooksInList("Read").toString().contains("The Hunger Games"));
         bookApp.addToList("The Hunger Games", "Suzanne Collins", 1, "Sci-Fi", "Read");
         assertTrue(bookApp.displayBooksInList("Read").toString().contains("The Hunger Games"));
+
     }
 
     @Test
