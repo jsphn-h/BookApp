@@ -168,6 +168,8 @@ public class BookApp {
     public String removeBook(String title, String author) {
 //        String title = readTitle();
 //        String author = readAuthor();
+        String msg = "Book not in library.";
+        boolean bookFound = false;
 
         ArrayList<Book> newList = new ArrayList<>();
         for (Book b : library.getBooks()) {
@@ -175,10 +177,17 @@ public class BookApp {
                 if (!b.getAuthor().equals(author)) {
                     newList.add(b);
                 }
+            } else if (b.getTitle().equals(title) && b.getAuthor().equals(author)) {
+                bookFound = true;
+                msg = title + " has been removed from library.";
             }
         }
-        library.removeBook(newList);
-        return title + " has been removed from library";
+
+        if (bookFound) {
+            library.removeBook(newList, title);
+        }
+
+        return msg;
     }
 
     //------ READ USER INPUT FUNCTIONS ------

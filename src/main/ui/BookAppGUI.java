@@ -1,5 +1,8 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -131,7 +134,7 @@ public class BookAppGUI extends JFrame {
     
     // EFFECTS: creates a button to remove a book from the library
     private JButton removeBookButton() {
-        removeBookButton.setText("Remove book from list");
+        removeBookButton.setText("Remove book from library");
         removeBookButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(removeBookButton, removeBookFromList());
@@ -442,7 +445,15 @@ public class BookAppGUI extends JFrame {
     public void createAndShowGUI() throws IOException {
         // Create window
         JFrame frame = new JFrame("BookApp");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                printLog(EventLog.getInstance());
+                System.exit(0);
+            }
+        });
+
 
         // Set up content pane
         frame.setPreferredSize(new Dimension(400, 400));
@@ -451,5 +462,11 @@ public class BookAppGUI extends JFrame {
         // Display window
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void printLog(EventLog el) {
+        for (Event event : el) {
+            System.out.println(event.toString());
+        }
     }
 }

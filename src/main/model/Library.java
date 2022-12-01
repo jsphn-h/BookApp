@@ -1,5 +1,6 @@
 package model;
 
+import jdk.nashorn.internal.objects.StringIterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writeable;
@@ -27,12 +28,14 @@ public class Library implements Writeable {
     // EFFECTS: adds a book to a list
     public void addBook(Book book) {
         books.add(book);
+        EventLog.getInstance().logEvent(new Event("Added " + book.getTitle()));
     }
 
     // MODIFIES: this
     // EFFECTS: replaces old list with new one after deleting a book
-    public void removeBook(ArrayList<Book> books) {
+    public void removeBook(ArrayList<Book> books, String title) {
         this.books = books;
+        EventLog.getInstance().logEvent(new Event("Removed " + title));
     }
 
     // EFFECTS: removes a book from a list
@@ -47,7 +50,6 @@ public class Library implements Writeable {
     public List<Book> getBooks() {
         return Collections.unmodifiableList(books);
     }
-
 
     @Override
     public JSONObject toJson() {
