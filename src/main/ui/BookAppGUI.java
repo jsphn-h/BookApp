@@ -63,6 +63,7 @@ public class BookAppGUI extends JFrame {
         container.add(picLabel);
     }
 
+    // Menu panel with buttons so user can interact with app
     private void menuPanel(Container container) {
         JPanel menuPanel = new JPanel();
         menuPanel.setLayout(new GridBagLayout());
@@ -171,11 +172,6 @@ public class BookAppGUI extends JFrame {
     // EFFECTS: creates a window to display all books in the library
     private void allBooksWindow() {
         JFrame allBooks = createWindow("All Books");
-        //Scroll pane is in JFrame
-        //Scroll pane contains JPanel
-        JScrollPane scrollPane = new JScrollPane();
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
         ArrayList books = bookApp.displayAllBooks();
         int rows = books.size() / 2;
         int cols = 2;
@@ -189,9 +185,7 @@ public class BookAppGUI extends JFrame {
             panel.add(textBox);
             panel.setVisible(true);
         }
-//        scrollPane.add(panel);
         allBooks.add(panel);
-//        allBooks.add(scrollPane);
     }
 
     // EFFECTS: creates a popup window for the user to select a list

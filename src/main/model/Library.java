@@ -38,14 +38,6 @@ public class Library implements Writeable {
         EventLog.getInstance().logEvent(new Event("Removed " + title));
     }
 
-    // EFFECTS: removes a book from a list
-//    public void removeBook(String title, String author) {
-//        List<Book> newList = new ArrayList<>();
-//        for (Book b : getBooks()) {
-//            System.out.println(b);
-//        }
-//    }
-
     // EFFECTS: returns an unmodifiable list of book lists
     public List<Book> getBooks() {
         return Collections.unmodifiableList(books);
