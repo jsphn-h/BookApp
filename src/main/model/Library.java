@@ -1,6 +1,5 @@
 package model;
 
-import jdk.nashorn.internal.objects.StringIterator;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writeable;
