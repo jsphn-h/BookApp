@@ -1,5 +1,6 @@
 package ui;
 
+import exception.LogException;
 import model.Event;
 import model.EventLog;
 
@@ -443,7 +444,11 @@ public class BookAppGUI extends JFrame {
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                printLog(EventLog.getInstance());
+                try {
+                    printLog(EventLog.getInstance());
+                } catch (LogException e) {
+                    throw new RuntimeException(e);
+                }
                 System.exit(0);
             }
         });
@@ -458,9 +463,9 @@ public class BookAppGUI extends JFrame {
         frame.setVisible(true);
     }
 
-    public void printLog(EventLog el) {
-        for (Event event : el) {
-            System.out.println(event.toString());
+    public void printLog(EventLog el) throws LogException {
+        for (Event e: el) {
+            System.out.println(e.toString());
         }
     }
 }
