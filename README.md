@@ -48,3 +48,8 @@ Thu Dec 01 15:20:07 PST 2022
 Added Hunger Games
 Thu Dec 01 15:20:20 PST 2022
 Removed Hunger Games
+
+## Phase 4: Task 3
+If I had more time to do the project, I would spend more time making the relationships between the classes clearer.
+For example, I would make it more clear whether the app could only open one library or several ones,
+and perhaps implement some sort of bidirectional association so that a Book object could only be added to one list at a time.
