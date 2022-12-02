@@ -43,7 +43,8 @@ public class BookAppTest {
 
     @Test
     void testRemoveBook() {
-        assertEquals("The Hunger Games has been removed from library", bookApp.removeBook("The Hunger Games", "Suzanne Collins"));
+        bookApp.addToList("The Hunger Games", "Suzanne Collins", 1, "Sci-Fi", "Read");
+        bookApp.removeBook("The Hunger Games", "Suzanne Collins");
         assertFalse(bookApp.displayAllBooks().toString().contains("The Hunger Games"));
     }
 
