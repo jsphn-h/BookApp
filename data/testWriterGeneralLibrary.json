@@ -1,0 +1,19 @@
+{
+    "library": "My Library",
+    "lists": [
+        {
+            "author": "Author",
+            "lists": "READ",
+            "num": 0,
+            "genre": "FICTION",
+            "title": "ABC"
+        },
+        {
+            "author": "Author 2",
+            "lists": "WISHLIST",
+            "num": 1,
+            "genre": "FANTASY",
+            "title": "123"
+        }
+    ]
+}

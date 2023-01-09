@@ -1,0 +1,6 @@
+{
+    "library": "Library",
+    "read": [{"list": "Read"}],
+    "toRead": [{"list": "Read"}],
+    "reading": [{"list": "Read"}]
+}

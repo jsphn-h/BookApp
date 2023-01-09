@@ -1,0 +1,40 @@
+{
+    "library": "Library",
+    "lists": [
+        {
+            "author": "F. Scott Fitzgerald",
+            "lists": "WISHLIST",
+            "num": 0,
+            "genre": "FICTION",
+            "title": "The Great Gatsby"
+        },
+        {
+            "author": "Dan Brown",
+            "lists": "READING",
+            "num": 0,
+            "genre": "FICTION",
+            "title": "The Da Vinci Code"
+        },
+        {
+            "author": "Stephenie Meyer",
+            "lists": "READ",
+            "num": 1,
+            "genre": "FICTION",
+            "title": "Twilight"
+        },
+        {
+            "author": "Alice Sebold",
+            "lists": "READING",
+            "num": 0,
+            "genre": "FICTION",
+            "title": "The Lovely Bones"
+        },
+        {
+            "author": "Suzanne Collins",
+            "lists": "READ",
+            "num": 1,
+            "genre": "FICTION",
+            "title": "Hunger Games"
+        }
+    ]
+}
